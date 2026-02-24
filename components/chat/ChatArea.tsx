@@ -241,9 +241,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             {/* Header */}
             <div className="flex items-center gap-3 px-4 h-15.5" style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(120px) saturate(140%)", borderBottom: "1px solid var(--bg-border)", minHeight: 56 }}>
                 <button onClick={onBack} className="rounded-lg p-1.5 md:hidden transition-colors"
-                    style={{ color: "var(--text-tertiary)" }}
-                    onMouseEnter={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "transparent"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "transparent"; }}>
+                    style={{ color: "var(--text-tertiary)" }}>
                     <ArrowLeft className="h-4 w-4" />
                 </button>
 

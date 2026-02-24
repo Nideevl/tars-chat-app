@@ -89,8 +89,6 @@ function ReactionDetail({
     onToggleReaction: (emoji: string) => void;
 }) {
     const [tab, setTab] = useState("all");
-    console.log(reactions)
-    console.log(currentUserId)
 
     const allRows = reactions.flatMap((r) =>
         r.userIds.map((uid) => {
