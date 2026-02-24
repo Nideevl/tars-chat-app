@@ -9,7 +9,7 @@ export default function SignInPage() {
           <div className="mb-4 flex justify-center">
               <img src="./horLogo.png" className="h-10"/>
             </div>
-          <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>
+          <p className="-ml-2 mt-1 text-xl" style={{ color: "rgb(245,245,245,0.6)" }}>
             Real-time messaging, simplified.
           </p>
         </div>
