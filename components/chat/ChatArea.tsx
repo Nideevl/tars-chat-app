@@ -251,10 +251,10 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                     {isGroup ? (
                         conversation?.imageUrl
                             ? <img src={conversation.imageUrl} alt={headerName} className="h-10 w-10 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                            : <GroupDefaultAvatar size={30} />
+                            : <GroupDefaultAvatar size={40} />
                     ) : headerAvatar
                         ? <img src={headerAvatar} alt={headerName} className="h-10 w-10 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                        : <div className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold" style={{ background: "var(--bg-border)", color: "var(--text-primary)", border: "1px solid #333" }}>
+                        : <div className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold" style={{ background: "var(--bg-border)", color: "var(--text-primary)", border: "1px solid #333" }}>
                             {headerName[0]?.toUpperCase()}
                         </div>
                     }
