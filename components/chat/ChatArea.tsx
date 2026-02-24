@@ -434,7 +434,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                         <p className="text-xs font-semibold" style={{ color: "var(--seen-text)" }}>
                             {replyTarget.senderId === currentUserId ? "You" : replyTarget.sender?.name ?? "Unknown"}
                         </p>
-                        <p className="truncate text-xs" style={{ color: "var(--text-tertiary)" }}>
+                        <p className="truncate text-xs max-w-[55%]" style={{ color: "var(--text-tertiary)" }}>
                             {replyTarget.isDeleted ? "Message deleted" : replyTarget.content}
                         </p>
                     </div>

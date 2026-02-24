@@ -61,7 +61,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
 
     return (
         <>
-            <div className="absolute h-full w-15" style={{ borderRight: "1px solid #222" }}>
+            <div className="absolute h-full w-15 z-20" style={{ borderRight: "1px solid #222" }}>
                 <div className="items-center pt-4 p-1 flex justify-center">
                     <img
                         src="./logo.png"

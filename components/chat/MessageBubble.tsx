@@ -598,7 +598,7 @@ export function MessageBubble({
 
                     {/* ── Message bubble + overlapping reaction pill ─────────────────── */}
                     {/* pb-3 makes room for the pill to overlap into */}
-                    <div className="relative" style={{ paddingBottom: reactions.length > 0 && !message.isDeleted ? 10 : 0 }}>
+                    <div className="relative max-w-[100%]" style={{ paddingBottom: reactions.length > 0 && !message.isDeleted ? 10 : 0 }}>
                         {/* Bubble */}
                         <div style={{
                             background: isMe
