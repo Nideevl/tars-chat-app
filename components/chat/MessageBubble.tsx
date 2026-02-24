@@ -649,7 +649,7 @@ export function MessageBubble({
                                     <div className={`absolute ${isMe ? "right-full mr-2" : "left-full ml-2"} top-1/2 -translate-y-1/2 z-30 flex gap-1.5 rounded-2xl px-3 py-2.5`}>
                                         <button onClick={togglePicker}
                                             className="rounded-lg p-1.5 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)"}}
+                                            style={{ background: "rgba(168,85,247,0.12)" }}
                                             onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
                                             onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
                                         >
@@ -657,7 +657,7 @@ export function MessageBubble({
                                         </button>
                                         <button onClick={() => onReply(message)}
                                             className="rounded-lg p-1.5 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)"}}
+                                            style={{ background: "rgba(168,85,247,0.12)" }}
                                             onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
                                             onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
                                         >
@@ -665,7 +665,7 @@ export function MessageBubble({
                                         </button>
                                         <button onClick={openMenu}
                                             className="rounded-lg px-1.5 py-0.25 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)"}}
+                                            style={{ background: "rgba(168,85,247,0.12)" }}
                                             onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
                                             onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
                                         >
@@ -725,13 +725,18 @@ export function MessageBubble({
 
             {/* ── Seen / Sent / Group Seen label — only on last message ─────────── */}
             {showStatusLabel && (
-                <div className={`flex items-center px-1 ${isMe ? "justify-end" : "justify-start"}`}>
+                <div className={`flex items-center px-1 z-50 ${isMe ? "justify-end" : "justify-start"}`}>
                     {isGroup && readStatus === "seen" ? (
                         // Group seen — show names or plain "Seen" if everyone saw it
                         <div className="relative" ref={seenDetailRef}>
                             {allGroupSeen ? (
                                 // Everyone saw it — plain "Seen", no modal
-                                <span style={{WebkitTextStroke: "0.25px #a855f7", fontSize: 12, fontStyle: "italic", color: "#a855f7" }}>Seen</span>
+                                <span style={{
+                                    WebkitTextStroke: "0.25px #a855f7", fontSize: 13, fontStyle: "italic", color: "#a855f7", textShadow:
+                                        readStatus === "seen"
+                                            ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
+                                            : "0 0 4px rgba(120,110,180,0.35)",
+                                }}>Seen</span>
                             ) : (
                                 // Some saw it — clickable with names
                                 <button
@@ -740,7 +745,7 @@ export function MessageBubble({
                                         setShowSeenDetail(v => !v);
                                     }}
                                     className="transition-opacity hover:opacity-70"
-                                    style={{ fontSize: 12, fontStyle: "italic", color: "#a855f7", textAlign: "right" }}
+                                    style={{ fontSize: 15, fontStyle: "italic", color: "#a855f7", textAlign: "right" }}
                                 >
                                     {(() => {
                                         const seenUsers = groupSeenBy
@@ -794,7 +799,10 @@ export function MessageBubble({
                             )}
                         </div>
                     ) : (
-                        <span style={{ WebkitTextStroke: "0.1px #a855f7", fontSize: 12, fontStyle: "italic", color: readStatus === "seen" ? "#a855f7" : "#4a4568" }}>
+                        <span style={{ textShadow:
+                                        readStatus === "seen"
+                                            ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
+                                            : "0 0 4px rgba(120,110,180,0.35)",WebkitTextStroke: "0.1px #a855f7", fontSize: 13, fontStyle: "italic", color: readStatus === "seen" ? "#a855f7" : "#4a4568" }}>
                             {readStatus === "seen" ? "Seen" : "Sent"}
                         </span>
                     )}

@@ -18,7 +18,7 @@ function DateSeparator({ timestamp }: { timestamp: number }) {
       className="relative flex items-center gap-3 my-3 px-2"
       style={{ zIndex: 5 }}
     >
-      <div className="flex-1 h-[0.5px]" style={{ background: "var(--sep-line)" }} />
+      <div className="flex-1 h-[0.5px]" style={{ background: "black" }} />
 
       <span
         className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
@@ -32,7 +32,7 @@ function DateSeparator({ timestamp }: { timestamp: number }) {
         {formatDateSeparator(timestamp)}
       </span>
 
-      <div className="flex-1 h-[0.5px]" style={{ background: "var(--sep-line)" }} />
+      <div className="flex-1 h-[0.5px]" style={{ background: "black" }} />
     </div>
   );
 }
