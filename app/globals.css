@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════
+   DARK THEME TOKENS
+   ═══════════════════════════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-base:          #000000;
+  --bg-raised:        #0d0d0d;
+  --bg-subtle:        #161616;
+  --bg-muted:         #1a1a1a;
+  --bg-hover:         #1f1f1f;
+  --bg-border:        #222222;
+  --bg-border-subtle: #2a2a2a;
+  --bg-border-faint:  #333333;
+
+  --text-primary:     #ffffff;
+  --text-secondary:   #aaaaaa;
+  --text-tertiary:    #949494;
+  --text-muted:       #7f7f7f;
+  --text-faint:       #444444;
+  --text-placeholder: #555555;
+
+  --bubble-me-bg:        rgba(139, 92, 246, 0.22);
+  --bubble-me-border:    rgba(167, 139, 250, 0.35);
+  --bubble-me-text:      #f0eaff;
+  --bubble-me-timestamp: rgba(220, 200, 255, 0.5);
+  --bubble-me-deleted:   rgba(200, 180, 255, 0.4);
+
+  --bubble-them-bg:        #1a1a1a;
+  --bubble-them-border:    #2a2a2a;
+  --bubble-them-text:      #ffffff;
+  --bubble-them-timestamp: #555;
+
+  --accent:           #8b5cf6;
+  --accent-soft:      rgba(139, 92, 246, 0.15);
+  --accent-glow:      rgba(139, 92, 246, 0.4);
+  --seen-text:        #a78bfa;
+  --online-dot:       #ffffff;
+  --online-dot-ring:  #000000;
+
+  --reaction-bg:      #2a2a2a;
+  --reaction-border:  #3a3a3a;
+
+  --overlay:          rgba(0,0,0,0.85);
+  --modal-bg:         #0d0d0d;
+  --modal-border:     #222222;
+  --modal-card-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(139,92,246,0.08);
+
+  --input-bg:         #111111;
+  --input-border:     #222222;
+  --input-focus:      #444444;
+
+  --sidebar-bg:       #000000;
+  --sidebar-item-hover:  #111111;
+  --sidebar-item-active: #1a1a1a;
+
+  --tab-active-bg:    #ffffff;
+  --tab-active-text:  #000000;
+  --tab-idle-bg:      #111111;
+  --tab-idle-text:    #555555;
+  --tab-idle-border:  #222222;
+
+  --btn-primary-bg:   #ffffff;
+  --btn-primary-text: #000000;
+  --btn-secondary-bg: #111111;
+  --btn-secondary-text:   #555555;
+  --btn-secondary-border: #222222;
+
+  --badge-bg:   #ffffff;
+  --badge-text: #000000;
+
+  --sep-line:   #1a1a1a;
+  --sep-bg:     #0a0a0a;
+  --sep-text:   #555555;
+  --sep-border: #1a1a1a;
+
+  --error-bg:     #1a0000;
+  --error-border: #440000;
+  --error-text:   #ff6b6b;
+
+  --typing-dot:      #888888;
+  --scrollbar-thumb: #333333;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ═══════════════════════════════════════════════════════════════════
+   BASE RESETS
+   ═══════════════════════════════════════════════════════════════════ */
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    background: transparent;
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  .message-enter { animation: msgIn 0.15s ease-out; }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .typing-dot { animation: typingBounce 1.4s infinite ease-in-out; }
+  .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+    30%           { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #1e1e1e 25%, #2a2a2a 50%, #1e1e1e 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes emoji-wave {
+  0%  { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.3); }
+  80% { transform: scale(0.9); }
+  100%{ transform: scale(1); opacity: 1; }
 }
+@keyframes picker-expand {
+  0%   { transform: scaleX(0.6); opacity: 0; }
+  100% { transform: scaleX(1);   opacity: 1; }
+}
+@keyframes picker-close {
+  0%   { transform: scaleX(1) scaleY(1); opacity: 1; }
+  100% { transform: scaleX(0) scaleY(0.4); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CLERK
+   ═══════════════════════════════════════════════════════════════════ */
+.cl-rootBox, .cl-card, .cl-modalContent {
+  background: #0d0d0d !important;
+  border-radius: 20px;
+  border: 1px solid #222 !important;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.8) !important;
+}
+.cl-headerTitle { color: #fff !important; }
+.cl-headerSubtitle { color: #666 !important; }
+.cl-formFieldInput { background: #111 !important; border: 1px solid #2a2a2a !important; color: #fff !important; }
+.cl-formFieldLabel { color: #888 !important; }
+.cl-formButtonPrimary { background: #8b5cf6 !important; color: #fff !important; }
+.cl-socialButtonsBlockButton { background: #111 !important; border: 1px solid #2a2a2a !important; color: #fff !important; }
+.cl-dividerLine { background: #222 !important; }
+.cl-dividerText { color: #555 !important; }
+.cl-footerActionLink { color: #a78bfa !important; }
+.cl-formFieldErrorText { color: #ff6b6b !important; }
+.cl-userButtonPopoverCard { background: #0d0d0d !important; border: 1px solid #222 !important; }
+.cl-userButtonPopoverActionButtonText { color: #ccc !important; }
