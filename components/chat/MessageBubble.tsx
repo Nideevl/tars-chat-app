@@ -5,7 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { formatTimeOnly } from "@/lib/formatDate";
-import { Reply, Trash2, X, Copy, Loader2, AlertCircle, Smile, EllipsisVertical } from "lucide-react";
+import { Reply, Trash2, X, Copy, Loader2, Smile, EllipsisVertical } from "lucide-react";
 
 const REACTION_EMOJIS = ["👍", "❤️", "😂", "😮", "😢"];
 
@@ -490,7 +490,7 @@ export function MessageBubble({
                 onMouseLeave={() => setHover(false)}
             >
                 {/* Other user avatar in groups */}
-                {!isMe && showSender && (
+                {!isMe && isFirstInGroup && (
                     <div className="mr-2 mt-auto flex-shrink-0 z-10">
                         {message.sender?.imageUrl
                             ? <img src={message.sender.imageUrl} alt="" className="h-6 w-6 rounded-full object-cover" style={{ border: "1px solid #333" }} />
@@ -500,7 +500,7 @@ export function MessageBubble({
                         }
                     </div>
                 )}
-                {!isMe && !showSender && <div className="mr-2 w-6 flex-shrink-0" />}
+                {!isFirstInGroup && !isMe && !showSender && <div className="mr-2 w-6 flex-shrink-0" />}
 
                 <div className={`relative flex max-w-[65%] flex-col ${isMe ? "items-end" : "items-start"}`}>
 
