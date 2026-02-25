@@ -100,7 +100,7 @@ export function ChatHeader({
 
                         {otherOnline && (
                             <span
-                                className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2"
+                                className="absolute bottom-0.5 right-0 h-3 w-3 rounded-full border-2"
                                 style={{
                                     background: "var(--text-primary)",
                                     borderColor: "var(--bg-base)",
