@@ -274,7 +274,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             <div
                 ref={scrollRef}
                 onScroll={handleScroll}
-                className="flex-1 overflow-y-auto px-4 py-4"
+                className="flex-1 overflow-y-auto pl-4 pr-5 md:pr-8 py-4 pb-2"
                 style={{
                     scrollbarWidth: "thin",
                     scrollbarColor: "#333 transparent",
@@ -290,7 +290,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                         <p className="text-sm" style={{ color: "#444" }}>No messages yet. Say hello!</p>
                     </div>
                 ) : (
-                    <div className="space-y-0.5">
+                    <div className="flex flex-col justify-end min-h-full space-y-0.5">
                         {messages.map((msg, i) => {
                             const prev = messages[i - 1];
                             const next = messages[i + 1];
