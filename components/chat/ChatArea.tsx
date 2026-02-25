@@ -84,6 +84,13 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const markRead = useMutation(api.presence.markConversationRead);
     const sendMessage = useMutation(api.messages.sendMessage);
 
+    const isGroup = conversation?.isGroup;
+    const headerName = isGroup ? conversation?.name ?? "Group" : otherUsers?.[0]?.name ?? "...";
+    const otherLastSeen = !isGroup ? (otherUsers?.[0]?.lastSeen ?? 0) : 0;
+    const otherOnline = !isGroup && otherUsers?.[0]?.isOnline;
+    const headerAvatar = isGroup ? null : otherUsers?.[0]?.imageUrl;
+    const isTypingNow = typingUsers && typingUsers.length > 0;
+
     useEffect(() => {
         // Only mark as read when the user is actually looking at the tab
         if (document.hidden) return;
@@ -138,7 +145,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             }
         }
         lastCountRef.current = messages.length;
-    }, [messages, conversationId]);
+    }, [messages, conversationId, isTypingNow]);
 
     const handleScroll = useCallback(() => {
         const s = scrollRef.current;
@@ -152,6 +159,17 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             setShowScrollButton(true);
         }
     }, []);
+
+    // Keep pinned to bottom when typing indicator appears/disappears
+    useEffect(() => {
+        if (!isTypingNow) return;
+        if (!isAtBottomRef.current) return;
+        requestAnimationFrame(() => {
+            if (scrollRef.current) {
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }
+        });
+    }, [isTypingNow]);
 
     // Reset initial scroll flag when conversation changes
     useEffect(() => {
@@ -233,13 +251,6 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             setIsSending(false);
         }
     };
-
-    const isGroup = conversation?.isGroup;
-    const headerName = isGroup ? conversation?.name ?? "Group" : otherUsers?.[0]?.name ?? "...";
-    const otherLastSeen = !isGroup ? (otherUsers?.[0]?.lastSeen ?? 0) : 0;
-    const otherOnline = !isGroup && otherUsers?.[0]?.isOnline;
-    const headerAvatar = isGroup ? null : otherUsers?.[0]?.imageUrl;
-    const isTypingNow = typingUsers && typingUsers.length > 0;
 
     return (
         <div className="flex h-full flex-col">
