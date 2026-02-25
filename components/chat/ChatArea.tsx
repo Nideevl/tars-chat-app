@@ -9,6 +9,7 @@ import { TypingIndicator } from "./TypingIndicator";
 import { GroupInfoModal } from "./Groupinfomodal";
 import { GroupDefaultAvatar } from "./Groupdefaultavatar";
 import { MessageInput } from "./MessageInput";
+import { ChatHeader } from "./ChatHeader";
 import { ArrowLeft, ChevronDown, MoreVertical } from "lucide-react";
 import { formatDateSeparator, isDifferentDay, formatLastSeen } from "@/lib/formatDate";
 
@@ -225,89 +226,20 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     return (
         <div className="flex h-full flex-col">
 
-            {/* Header */}
-            <div className="flex items-center gap-3 px-4 h-15.5" style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(120px) saturate(140%)", borderBottom: "1px solid var(--bg-border)", minHeight: 56 }}>
-                <button onClick={onBack} className="rounded-lg p-1.5 md:hidden transition-colors"
-                    style={{ color: "var(--text-tertiary)" }}>
-                    <ArrowLeft className="h-4 w-4" />
-                </button>
-
-                <div className="relative flex-shrink-0">
-                    {isGroup ? (
-                        conversation?.imageUrl
-                            ? <img src={conversation.imageUrl} alt={headerName} className="h-10 w-10 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                            : <GroupDefaultAvatar size={40} />
-                    ) : headerAvatar
-                        ? <img src={headerAvatar} alt={headerName} className="h-10 w-10 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                        : <div className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold" style={{ background: "var(--bg-border)", color: "var(--text-primary)", border: "1px solid #333" }}>
-                            {headerName[0]?.toUpperCase()}
-                        </div>
-                    }
-                    {otherOnline && <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2" style={{ background: "var(--text-primary)", borderColor: "var(--bg-base)" }} />}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                    <h2
-                        className="text-base font-semibold truncate"
-                        style={{ color: "var(--text-primary)", fontSize: "15px" }}
-                    >
-                        {headerName}
-                    </h2>
-
-                    {isTypingNow ? (
-                        <div className="flex items-center -mt-0.5 gap-2">
-                            <div className="flex items-center gap-1">
-                                {[0, 1, 2].map(i => (
-                                    <span
-                                        key={i}
-                                        className="typing-dot inline-block h-1 w-1 rounded-full"
-                                        style={{ background: "var(--text-primary)" }}
-                                    />
-                                ))}
-                            </div>
-
-                            <span
-                                className="text-sm"
-                                style={{
-                                    letterSpacing: "0.4px",
-                                    color: "var(--text-muted)"
-                                }}
-                            >
-                                {isGroup && typingUsers?.[0]
-                                    ? `${typingUsers[0].userName} typing`
-                                    : "typing"}
-                            </span>
-                        </div>
-                    ) : (
-                        <p
-                            className="text-sm"
-                            style={{
-                                WebkitTextStroke: "0.25px rgba(255,255,255,0.15)",
-                                letterSpacing: "0.4px",
-                                color: "var(--text-muted)",
-                                fontSize: "13px"
-                            }}
-                        >
-                            {isGroup
-                                ? `${conversation?.participantIds.length} members`
-                                : otherOnline
-                                    ? "Active now"
-                                    : formatLastSeen(otherLastSeen)}
-                        </p>
-                    )}
-                </div>
-                {isGroup &&
-                    <button
-                        onClick={() => { if (isGroup) setShowGroupInfo(true); }}
-                        className="rounded-lg p-1.5 transition-colors"
-                        style={{ color: "var(--text-tertiary)" }}
-                        onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
-                        <MoreVertical className="h-4 w-4" />
-                    </button>
-                }
-            </div>
-
+            <ChatHeader
+                conversation={conversation}
+                conversationId={conversationId}
+                currentUserId={currentUserId}
+                isGroup={isGroup}
+                headerName={headerName}
+                headerAvatar={headerAvatar}
+                otherOnline={otherOnline}
+                otherLastSeen={otherLastSeen}
+                typingUsers={typingUsers}
+                isTypingNow={isTypingNow}
+                onBack={onBack}
+                onOpenGroupInfo={() => setShowGroupInfo(true)}
+            />
 
             {/* Messages */}
             <div
