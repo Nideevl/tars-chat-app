@@ -216,6 +216,14 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
         setReplyTarget(null);
         if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
         setTyping({ conversationId, userId: currentUserId, userName: currentUserName, isTyping: false });
+
+        // ← ADD THIS — scroll to bottom immediately when sending
+        requestAnimationFrame(() => {
+            if (scrollRef.current) {
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }
+        });
+
         try {
             await sendMessage({ conversationId, senderId: currentUserId, content, replyToId });
         } catch {
