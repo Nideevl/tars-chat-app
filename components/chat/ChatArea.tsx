@@ -10,7 +10,7 @@ import { GroupInfoModal } from "./Groupinfomodal";
 import { MessageInput } from "./MessageInput";
 import { ChatSkeleton } from "./ChatSkeleton";
 import { ChatHeader } from "./ChatHeader";
-import { ArrowLeft, ChevronDown, MoreVertical } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { formatDateSeparator, isDifferentDay, formatLastSeen } from "@/lib/formatDate";
 
 // ─── Date Separator ───────────────────────────────────────────────────────────
@@ -57,7 +57,6 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
     const [messagesVisible, setMessagesVisible] = useState(false);
     const [showGroupInfo, setShowGroupInfo] = useState(false);
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const isAtBottomRef = useRef(true);
@@ -67,6 +66,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const initialScrollDoneRef = useRef<string | null>(null); // tracks which convo was initially scrolled
     // Map of messageId → DOM element for jump-to-reply
     const messageRefsMap = useRef<Map<string, HTMLDivElement>>(new Map());
+    const highlightRefsMap = useRef<Map<string, HTMLDivElement>>(new Map());
 
     const messages = useQuery(api.messages.getMessages, { conversationId, userId: currentUserId });
     const conversation = useQuery(api.conversations.getConversation, { conversationId });
@@ -184,11 +184,20 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const handleJumpToMessage = useCallback((id: Id<"messages">) => {
         const el = messageRefsMap.current.get(id);
         if (!el) return;
+
         el.scrollIntoView({ behavior: "smooth", block: "center" });
-        // Flash highlight
-        el.style.transition = "background 0.2s";
-        el.style.background = "rgba(96,165,250,0.15)";
-        setTimeout(() => { el.style.background = "transparent"; }, 1200);
+
+        setTimeout(() => {
+            const row = highlightRefsMap.current.get(id);
+            if (!row) return;
+
+            row.style.background = "rgba(168,85,247,0.18)";
+            setTimeout(() => {
+                row.style.transition = "background 0.6s ease";
+                row.style.background = "transparent";
+                setTimeout(() => { row.style.transition = ""; }, 600);
+            }, 800);
+        }, 500);
     }, []);
 
     const handleTyping = () => {
@@ -275,30 +284,48 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                             return (
                                 <div key={msg._id}>
                                     {showDateSep && <DateSeparator timestamp={msg._creationTime} />}
-                                    <MessageBubble
-                                        message={msg as any}
-                                        currentUserId={currentUserId}
-                                        showSender={isFirstInGroup && (isGroup ?? false)}
-                                        isFirstInGroup={isFirstInGroup}
-                                        isLastInGroup={isLastInGroup}
-                                        allUsers={allParticipants ?? undefined}
-                                        readReceipts={readReceipts ?? undefined}
-                                        isGroup={isGroup ?? false}
-                                        isSending={false}
-                                        isLastMessage={isLastMessage}
-                                        onReply={(m) => setReplyTarget(m as any)}
-                                        onJumpToMessage={handleJumpToMessage}
-                                        messageRef={(el) => {
-                                            if (el) messageRefsMap.current.set(msg._id, el);
-                                            else messageRefsMap.current.delete(msg._id);
-                                        }}
-                                    />
+                                    <div style={{ position: "relative" }}>
+                                        <div
+                                            ref={(el) => {
+                                                if (el) highlightRefsMap.current.set(msg._id, el);
+                                                else highlightRefsMap.current.delete(msg._id);
+                                            }}
+                                            className="absolute pointer-events-none"
+                                            style={{
+                                                top: 0, bottom: 0,
+                                                left: "-16px", right: "-16px",
+                                                background: "transparent",
+                                                zIndex: 0,
+                                            }}
+                                        />
+                                        <div style={{ position: "relative", zIndex: 1 }}>
+                                            <MessageBubble
+                                                message={msg as any}
+                                                currentUserId={currentUserId}
+                                                showSender={isFirstInGroup && (isGroup ?? false)}
+                                                isFirstInGroup={isFirstInGroup}
+                                                isLastInGroup={isLastInGroup}
+                                                allUsers={allParticipants ?? undefined}
+                                                readReceipts={readReceipts ?? undefined}
+                                                isGroup={isGroup ?? false}
+                                                isSending={false}
+                                                isLastMessage={isLastMessage}
+                                                onReply={(m) => setReplyTarget(m as any)}
+                                                onJumpToMessage={handleJumpToMessage}
+                                                messageRef={(el) => {
+                                                    if (el) messageRefsMap.current.set(msg._id, el);
+                                                    else messageRefsMap.current.delete(msg._id);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         })}
                         {isTypingNow && <TypingIndicator typingUsers={typingUsers!} />}
                     </div>
-                )}
+                )
+                }
             </div>
 
             {/* Scroll to bottom button — appears when user scrolls up */}

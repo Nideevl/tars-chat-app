@@ -59,7 +59,6 @@ export function MessageBubble({
     const [showMenu, setShowMenu] = useState(false);
     const [hover, setHover] = useState(false);
     const [positionAbove, setPositionAbove] = useState(false);
-
     const bubbleRef = useRef<HTMLDivElement>(null);
 
     const deleteForEveryone = useMutation(api.messages.deleteForEveryone);
@@ -123,7 +122,7 @@ export function MessageBubble({
         const first = isFirstInGroup && !isLastInGroup;
         const middle = !isFirstInGroup && !isLastInGroup;
         const last = !isFirstInGroup && isLastInGroup;
-    // this is structure of message bubble depending upon who is sender or reciever
+        // this is structure of message bubble depending upon who is sender or reciever
         if (isMe) {
             if (solo) return `${R}px ${R}px ${R}px ${R}px`;
             if (first) return `${R}px ${R}px ${F}px ${R}px`;
@@ -256,17 +255,19 @@ export function MessageBubble({
                     {/* pb-3 makes room for the pill to overlap into */}
                     <div className="relative max-w-[100%]" style={{ paddingBottom: reactions.length > 0 && !message.isDeleted ? 10 : 0 }}>
                         {/* Bubble */}
-                        <div style={{
-                            background: isMe
-                                ? "linear-gradient(135deg, #7C3AED 0%, #6D33AA 40%, #4C1D95 100%)"
-                                : "rgba(255,255,255,0.12)",
-                            backdropFilter: "blur(12px)",
-                            WebkitBackdropFilter: "blur(12px)",
-                            // border: isMe ? "1px solid rgba(168,85,247,0.4)" : "1px solid rgba(255,255,255,0.1)",
-                            borderRadius: br,
-                            padding: "8px 14px 10px",
-                            boxShadow: isMe ? "0 2px 20px rgba(100,40,210,0.3), inset 0 1px 0 rgba(255,255,255,0.08)" : "none",
-                        }}>
+                        <div
+                            data-bubble="true"
+                            style={{
+                                background: isMe
+                                    ? "linear-gradient(135deg, #7C3AED 0%, #6D33AA 40%, #4C1D95 100%)"
+                                    : "rgba(255,255,255,0.12)",
+                                backdropFilter: "blur(12px)",
+                                WebkitBackdropFilter: "blur(12px)",
+                                // border: isMe ? "1px solid rgba(168,85,247,0.4)" : "1px solid rgba(255,255,255,0.1)",
+                                borderRadius: br,
+                                padding: "8px 14px 10px",
+                                boxShadow: isMe ? "0 2px 20px rgba(100,40,210,0.3), inset 0 1px 0 rgba(255,255,255,0.08)" : "none",
+                            }}>
                             {message.isDeleted ? (
                                 <p className="text-sm italic mr-1.5" style={{ color: isMe ? "rgba(200,180,255,0.45)" : "rgba(255,255,255,0.3)" }}>
                                     Message deleted
