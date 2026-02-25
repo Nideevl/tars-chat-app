@@ -36,6 +36,8 @@ export function MessageBubble({
     isGroup,
     isSending,
     isLastMessage,       // ← NEW: only show Seen/Sent on the very last message
+    onPickerOpen,
+    onPickerClose,
     onReply,
     onJumpToMessage,
     messageRef,
@@ -50,6 +52,8 @@ export function MessageBubble({
     isGroup?: boolean;
     isSending?: boolean;
     isLastMessage?: boolean;
+onPickerOpen?: () => void;
+onPickerClose?: () => void;
     onReply: (message: MessageWithSender) => void;
     onJumpToMessage: (id: Id<"messages">) => void;
     messageRef?: (el: HTMLDivElement | null) => void;
@@ -99,9 +103,15 @@ export function MessageBubble({
     };
 
     const openMenu = () => { measurePosition(); setShowMenu(true); setShowPicker(false); setShowDetail(false); };
-    const openPicker = () => { measurePosition(); setShowPicker(true); setShowMenu(false); setShowDetail(false); };
-    const togglePicker = () => { if (showPicker) { setShowPicker(false); } else { openPicker(); } };
-    const openDetail = () => { measurePosition(); setShowDetail(true); setShowPicker(false); setShowMenu(false); };
+    const openPicker = () => { measurePosition(); setShowPicker(true); setShowMenu(false); setShowDetail(false); onPickerOpen?.(); };
+    const togglePicker = () => { if (showPicker) { setShowPicker(false); onPickerClose?.(); } else { openPicker(); } };
+    const openDetail = () => {
+        measurePosition();
+        setShowDetail(true);
+        setShowPicker(false);
+        onPickerOpen?.();
+        setShowMenu(false);
+    };
 
     const enrichedReactions = reactions.map((r) => ({
         ...r,
@@ -192,7 +202,7 @@ export function MessageBubble({
                         <>
                             <div
                                 className="fixed inset-0 z-0"
-                                onClick={() => setShowPicker(false)}
+                                onClick={() => { setShowPicker(false); onPickerClose?.(); }}
                             />
 
                             <div
@@ -366,7 +376,10 @@ export function MessageBubble({
                                     {showDetail && (
                                         <ReactionDetail
                                             reactions={enrichedReactions}
-                                            onClose={() => setShowDetail(false)}
+                                            onClose={() => {
+                                                setShowDetail(false);
+                                                onPickerClose?.();
+                                            }}
                                             isMe={isMe}
                                             currentUserId={currentUserId}
                                             positionAbove={positionAbove}

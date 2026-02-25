@@ -55,6 +55,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const [sendError, setSendError] = useState(false);
     const [showScrollButton, setShowScrollButton] = useState(false);
     const [replyTarget, setReplyTarget] = useState<ReplyTarget | null>(null);
+    const [activePopupId, setActivePopupId] = useState<string | null>(null);
     const [messagesVisible, setMessagesVisible] = useState(false);
     const [showGroupInfo, setShowGroupInfo] = useState(false);
 
@@ -290,7 +291,13 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                             const isFirstInGroup = !prevSameSender;
                             const isLastInGroup = !nextSameSender;
                             return (
-                                <div key={msg._id}>
+                                <div
+                                    key={msg._id}
+                                    style={{
+                                        position: "relative",
+                                        zIndex: activePopupId === msg._id ? 100 : 1
+                                    }}
+                                >
                                     {showDateSep && <DateSeparator timestamp={msg._creationTime} />}
                                     <div style={{ position: "relative" }}>
                                         <div
@@ -320,6 +327,8 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                                                 isLastMessage={isLastMessage}
                                                 onReply={(m) => setReplyTarget(m as any)}
                                                 onJumpToMessage={handleJumpToMessage}
+                                                onPickerOpen={() => setActivePopupId(msg._id)}   // ADD
+                                                onPickerClose={() => setActivePopupId(null)}
                                                 messageRef={(el) => {
                                                     if (el) messageRefsMap.current.set(msg._id, el);
                                                     else messageRefsMap.current.delete(msg._id);
