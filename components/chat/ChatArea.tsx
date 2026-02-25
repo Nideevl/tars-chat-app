@@ -15,15 +15,20 @@ import { formatDateSeparator, isDifferentDay, formatLastSeen } from "@/lib/forma
 // ─── Date Separator ───────────────────────────────────────────────────────────
 function DateSeparator({ timestamp }: { timestamp: number }) {
     return (
-        <div className="flex items-center gap-3 my-3 px-2">
-            <div className="flex-1 h-px" style={{ background: "#1a1a1a" }} />
+        <div className="flex justify-center my-4">
             <span
-                className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
-                style={{ color: "#555", background: "#0a0a0a", border: "1px solid #1a1a1a" }}
+                className="text-[11px] px-3 py-1 rounded-full"
+                style={{
+                    color: "rgba(220,220,255,0.8)",
+                    background: "rgba(255,255,255,0.06)",
+                    backdropFilter: "blur(80px)",
+                    WebkitBackdropFilter: "blur(1px)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    letterSpacing: "0.5px",
+                }}
             >
                 {formatDateSeparator(timestamp)}
             </span>
-            <div className="flex-1 h-px" style={{ background: "#1a1a1a" }} />
         </div>
     );
 }
@@ -218,7 +223,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const isTypingNow = typingUsers && typingUsers.length > 0;
 
     return (
-        <div className="flex h-full flex-col" style={{ background: "#000" }}>
+        <div className="flex h-full flex-col">
 
             {/* Header */}
             <div className="flex items-center gap-3 px-4 h-15.5" style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(120px) saturate(140%)", borderBottom: "1px solid var(--bg-border)", minHeight: 56 }}>
@@ -310,7 +315,6 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                 onScroll={handleScroll}
                 className="flex-1 overflow-y-auto px-4 py-4"
                 style={{
-                    background: "#000",
                     scrollbarWidth: "thin",
                     scrollbarColor: "#333 transparent",
                     // Hide only when we have messages but haven't snapped to bottom yet
@@ -335,8 +339,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                         {messages.map((msg, i) => {
                             const prev = messages[i - 1];
                             const next = messages[i + 1];
-                            const isLastMessage = msg.senderId === currentUserId &&
-                                !messages.slice(i + 1).some(m => m.senderId === currentUserId);
+                            const isLastMessage = i === messages.length - 1;
                             const showDateSep = !prev || isDifferentDay(prev._creationTime, msg._creationTime);
                             // Group boundary: a new sender or a date separator breaks the stack
                             const prevSameSender = prev && prev.senderId === msg.senderId && !isDifferentDay(prev._creationTime, msg._creationTime);
@@ -427,4 +430,4 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
             )}
         </div>
     );
-}
+}   
