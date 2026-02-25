@@ -7,8 +7,8 @@ import { Id } from "@/convex/_generated/dataModel";
 import { MessageBubble } from "./MessageBubble";
 import { TypingIndicator } from "./TypingIndicator";
 import { GroupInfoModal } from "./Groupinfomodal";
-import { GroupDefaultAvatar } from "./Groupdefaultavatar";
 import { MessageInput } from "./MessageInput";
+import { ChatSkeleton } from "./ChatSkeleton";
 import { ChatHeader } from "./ChatHeader";
 import { ArrowLeft, ChevronDown, MoreVertical } from "lucide-react";
 import { formatDateSeparator, isDifferentDay, formatLastSeen } from "@/lib/formatDate";
@@ -255,13 +255,7 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
                 }}
             >
                 {messages === undefined ? (
-                    <div className="space-y-4">
-                        {[...Array(5)].map((_, i) => (
-                            <div key={i} className={`flex ${i % 2 === 0 ? "justify-end" : "justify-start"}`}>
-                                <div className="skeleton rounded-2xl" style={{ height: 36, width: 80 + i * 30 }} />
-                            </div>
-                        ))}
-                    </div>
+                    <ChatSkeleton />
                 ) : messages.length === 0 ? (
                     <div className="flex h-full items-center justify-center" ref={el => { if (el) setMessagesVisible(true); }}>
                         <p className="text-sm" style={{ color: "#444" }}>No messages yet. Say hello!</p>
