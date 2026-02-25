@@ -3,8 +3,8 @@
 import { useState, useRef } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { Camera, X, Loader2 } from "lucide-react";
+import { Id } from "@/convex/_generated/dataModel";
 import { GroupDefaultAvatar } from "./Groupdefaultavatar";
 
 interface GroupInfoModalProps {
@@ -43,15 +43,15 @@ export function GroupInfoModal({ conversationId, currentUserId, currentName, cur
     if (!name.trim()) { setError("Group name cannot be empty"); return; }
     setIsSaving(true); setError(null);
     try {
-      let storageId: string | undefined;
+      let storageId: Id<"_storage"> | undefined;
       if (avatarFile) {
         const uploadUrl = await generateUploadUrl();
         const res = await fetch(uploadUrl, { method: "POST", headers: { "Content-Type": avatarFile.type }, body: avatarFile });
         if (!res.ok) throw new Error("Upload failed");
-        const { storageId: sid } = await res.json();
+        const { storageId: sid } = await res.json() as { storageId: Id<"_storage"> };
         storageId = sid;
       }
-      await updateGroupInfo({ conversationId, userId: currentUserId, name: name.trim(), bio: bio.trim() || undefined, storageId: storageId as any });
+      await updateGroupInfo({ conversationId, userId: currentUserId, name: name.trim(), bio: bio.trim() || undefined, storageId });
       onClose();
     } catch { setError("Something went wrong. Please try again."); }
     finally { setIsSaving(false); }

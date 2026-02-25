@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Camera, X, Check, Loader2 } from "lucide-react";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface ProfileSetupModalProps {
   clerkId: string;
@@ -54,7 +55,7 @@ export function ProfileSetupModal({
     setError(null);
 
     try {
-      let storageId: string | undefined;
+      let storageId: Id<"_storage"> | undefined;
 
       if (avatarFile) {
         // 1. Get upload URL from Convex
@@ -66,7 +67,7 @@ export function ProfileSetupModal({
           body: avatarFile,
         });
         if (!result.ok) throw new Error("Upload failed");
-        const { storageId: sid } = await result.json();
+        const { storageId: sid } = await result.json() as { storageId: Id<"_storage"> };
         storageId = sid;
       }
 
@@ -74,7 +75,7 @@ export function ProfileSetupModal({
         clerkId,
         username: username.trim(),
         bio: bio.trim() || undefined,
-        storageId: storageId as any,
+        storageId,
       });
 
       setStep("done");

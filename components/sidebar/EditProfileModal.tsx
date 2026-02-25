@@ -2,13 +2,15 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useMutation } from "convex/react";
+import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { Loader2, X, ZoomIn, ZoomOut, RotateCw, Check, Camera, User } from "lucide-react";
 
-// ╔══════════════════════════════════════════════════════════════════╗
-// ║                     THEME CONFIGURATION                         ║
-// ║         Change anything here to restyle the entire modal        ║
-// ╚══════════════════════════════════════════════════════════════════╝
+// ___________________________________________________________________
+// |                     THEME CONFIGURATION                         |
+// |         Change anything here to restyle the entire modal        |
+// -------------------------------------------------------------------
+
 const THEME = {
   // ── Accent (purple by default) ────────────────────────────────────
   accent:            "#7C3AED",          // primary purple
@@ -273,15 +275,15 @@ export function EditProfileModal({ clerkId, currentName, currentBio, currentImag
     if (!username.trim()) { setError("Name cannot be empty"); return; }
     setIsSaving(true); setError(null);
     try {
-      let storageId: string | undefined;
+      let storageId: Id<"_storage"> | undefined;
       if (croppedBlob) {
         const uploadUrl = await generateUploadUrl();
         const res = await fetch(uploadUrl, { method: "POST", headers: { "Content-Type": "image/png" }, body: croppedBlob });
         if (!res.ok) throw new Error("Upload failed");
-        const { storageId: sid } = await res.json();
+        const { storageId: sid } = await res.json() as { storageId: Id<"_storage"> };
         storageId = sid;
       }
-      await updateProfile({ clerkId, username: username.trim(), bio: bio.trim() || undefined, storageId: storageId as any });
+      await updateProfile({ clerkId, username: username.trim(), bio: bio.trim() || undefined, storageId });
       setSaved(true);
       setTimeout(onClose, 800);
     } catch { setError("Something went wrong. Please try again."); }

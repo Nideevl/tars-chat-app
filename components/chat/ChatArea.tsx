@@ -87,7 +87,6 @@ export function ChatArea({ conversationId, currentUserId, currentUserName, onBac
     const sendMessage = useMutation(api.messages.sendMessage);
 
     useEffect(() => {
-        // Only mark as read when the user is actually looking at the tab
         if (document.hidden) return;
         markRead({ conversationId, userId: currentUserId });
     }, [conversationId, currentUserId, messages?.length, markRead]);

@@ -119,11 +119,19 @@ export const getUserByClerkId = query({
   },
 });
 
-// Get multiple users by their clerkIds
+// Get multiple users by their clerkIds — queries each by index, no full table scan
 export const getUsersByClerkIds = query({
   args: { clerkIds: v.array(v.string()) },
   handler: async (ctx, args) => {
-    const users = await ctx.db.query("users").collect();
-    return users.filter((u) => args.clerkIds.includes(u.clerkId));
+    const users = await Promise.all(
+      args.clerkIds.map((clerkId) =>
+        ctx.db
+          .query("users")
+          .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
+          .unique()
+      )
+    );
+    // Filter out nulls (users that don't exist)
+    return users.filter((u): u is NonNullable<typeof u> => u !== null);
   },
 });

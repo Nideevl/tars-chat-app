@@ -95,11 +95,10 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                     </div>
                 </div>
 
-                {/* ── Chat list: takes remaining space, stable ────────────────────── */}
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
 
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 h-[56px] flex-shrink-0" style={{ borderBottom: "1px solid #222" }}>
+                    <div className="flex items-center justify-between px-4 h-[62px] flex-shrink-0" style={{ borderBottom: "1px solid #222" }}>
                         {/* Logo text replaced with horizontal logo image */}
 
                         {/* Desktop → show "Chats" */}

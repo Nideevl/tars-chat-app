@@ -8,7 +8,6 @@ export function TypingIndicator({ typingUsers }: { typingUsers: { userName: stri
         background: "rgba(255,255,255,0.12)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        // border: isMe ? "1px solid rgba(168,85,247,0.4)" : "1px solid rgba(255,255,255,0.1)",
         padding: "12px 14px 10px",
       }}>
         {[0, 1, 2].map(i => (

@@ -112,47 +112,45 @@ export const toggleReaction = mutation({
         const message = await ctx.db.get(messageId);
         if (!message) return;
 
-        const reactions = message.reactions ?? [];
+        let reactions = message.reactions ?? [];
 
-        const existing = reactions.find(r => r.emoji === emoji);
+        const previousReaction = reactions.find(r => r.userIds.includes(userId));
 
-        if (!existing) {
-            // No reaction for this emoji → create new
-            await ctx.db.patch(messageId, {
-                reactions: [
-                    ...reactions,
-                    { emoji, userIds: [userId] }
-                ],
-            });
-            return;
-        }
-
-        const alreadyReacted = existing.userIds.includes(userId);
-
-        if (alreadyReacted) {
-            // REMOVE user from emoji
-            const updatedReactions = reactions
-                .map(r =>
-                    r.emoji === emoji
+        if (previousReaction) {
+            if (previousReaction.emoji === emoji) {
+                const cleaned = reactions
+                    .map(r => r.emoji === emoji
                         ? { ...r, userIds: r.userIds.filter(id => id !== userId) }
                         : r
-                )
-                .filter(r => r.userIds.length > 0); // remove empty emoji entries
+                    )
+                    .filter(r => r.userIds.length > 0);
 
-            await ctx.db.patch(messageId, {
-                reactions: updatedReactions,
-            });
-        } else {
-            // ADD user to emoji
-            const updatedReactions = reactions.map(r =>
+                await ctx.db.patch(messageId, { reactions: cleaned });
+                return;
+            }
+
+            // Different emoji → strip user from their previous reaction first
+            reactions = reactions
+                .map(r => r.emoji === previousReaction.emoji
+                    ? { ...r, userIds: r.userIds.filter(id => id !== userId) }
+                    : r
+                )
+                .filter(r => r.userIds.length > 0);
+        }
+
+        // Add user to the new emoji
+        const existing = reactions.find(r => r.emoji === emoji);
+
+        if (existing) {
+            reactions = reactions.map(r =>
                 r.emoji === emoji
                     ? { ...r, userIds: [...r.userIds, userId] }
                     : r
             );
-
-            await ctx.db.patch(messageId, {
-                reactions: updatedReactions,
-            });
+        } else {
+            reactions = [...reactions, { emoji, userIds: [userId] }];
         }
+
+        await ctx.db.patch(messageId, { reactions });
     },
 });

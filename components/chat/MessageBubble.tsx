@@ -67,7 +67,7 @@ function ReplyHeader({
     );
 }
 
-// ─── Reaction Detail Sheet ────────────────────────────────────────────────────
+// Reaction Detail Sheet 
 function ReactionDetail({
     reactions,
     onClose,
@@ -277,7 +277,7 @@ function ReactionDetail({
     );
 }
 
-// ─── Context Menu ─────────────────────────────────────────────────────────────
+// ─── Context Menu ──────────────
 function ContextMenu({
     isMe,
     onReply,
@@ -449,15 +449,6 @@ export function MessageBubble({
     };
 
     const handleCopy = () => { if (message.content) navigator.clipboard.writeText(message.content); };
-
-    // WhatsApp-style stacking radius
-    // Corners order: topLeft topRight bottomRight bottomLeft
-    // isMe messages sit on the RIGHT — tail corner is bottom-right
-    //   first in stack  → top all round,    bottom-right flat
-    //   middle in stack → top-right flat,   bottom-right flat  (both "inner" corners flat)
-    //   last in stack   → top-right flat,   bottom all round
-    //   solo            → all round (pill)
-    // !isMe messages sit on the LEFT — tail corner is bottom-left (mirror)
     const br = (() => {
         const R = 18;
         const F = 5;
@@ -465,7 +456,7 @@ export function MessageBubble({
         const first = isFirstInGroup && !isLastInGroup;
         const middle = !isFirstInGroup && !isLastInGroup;
         const last = !isFirstInGroup && isLastInGroup;
-
+    // this is structure of message bubble depending upon who is sender or reciever
         if (isMe) {
             if (solo) return `${R}px ${R}px ${R}px ${R}px`;
             if (first) return `${R}px ${R}px ${F}px ${R}px`;
@@ -723,7 +714,7 @@ export function MessageBubble({
 
             {/* ── Seen / Sent / Group Seen label — only on last message ─────────── */}
             {showStatusLabel && (
-                <div className={`flex items-center px-1 z-50 ${isMe ? "justify-end" : "justify-start"}`}>
+                <div className={`flex items-center px-1 z-20 ${isMe ? "justify-end" : "justify-start"}`}>
                     {isGroup && readStatus === "seen" ? (
                         // Group seen — show names or plain "Seen" if everyone saw it
                         <div className="relative" ref={seenDetailRef}>
@@ -797,10 +788,12 @@ export function MessageBubble({
                             )}
                         </div>
                     ) : (
-                        <span style={{ textShadow:
-                                        readStatus === "seen"
-                                            ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
-                                            : "0 0 4px rgba(120,110,180,0.35)",WebkitTextStroke: "0.1px #a855f7", fontSize: 13, fontStyle: "italic", color: readStatus === "seen" ? "#a855f7" : "#4a4568" }}>
+                        <span style={{
+                            textShadow:
+                                readStatus === "seen"
+                                    ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
+                                    : "0 0 4px rgba(120,110,180,0.35)", WebkitTextStroke: "0.1px #a855f7", fontSize: 13, fontStyle: "italic", color: readStatus === "seen" ? "#a855f7" : "#4a4568"
+                        }}>
                             {readStatus === "seen" ? "Seen" : "Sent"}
                         </span>
                     )}
