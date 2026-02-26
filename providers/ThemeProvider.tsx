@@ -1,7 +1,6 @@
-{/* Not In Use right , for future use */}
-
 "use client";
 
+{/* Not In Use right , for future use */}
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
