@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { MessageBubble } from "./MessageBubble";
+import { MessageBubble } from "../message/MessageBubble";
 import { TypingIndicator } from "./TypingIndicator";
 import { GroupInfoModal } from "./Groupinfomodal";
 import { MessageInput } from "./MessageInput";

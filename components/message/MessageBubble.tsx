@@ -8,9 +8,10 @@ import { formatTimeOnly } from "@/lib/formatDate";
 import { ContextMenu } from "./ContextMenu"
 import { ReactionDetail } from "./ReactionDetail"
 import { ReplyHeader } from "./ReplyHeader"
-import { Reply, Trash2, X, Copy, Loader2, Smile, EllipsisVertical } from "lucide-react";
-
-const REACTION_EMOJIS = ["👍", "❤️", "😂", "😮", "😢"];
+import { Reply, Loader2, Smile, EllipsisVertical } from "lucide-react";
+import { MessageEmojiPicker } from "./MessageEmojiPicker";
+import { MemberAvatar } from "./MemberAvatar";
+import { ReadStatusLabel } from "./ReadStatusLabel";
 
 interface ReplySnippet {
     _id: Id<"messages">;
@@ -25,6 +26,21 @@ interface MessageWithSender extends Doc<"messages"> {
     replyTo?: ReplySnippet | null;
 }
 
+function getBubbleRadius(isMe: boolean, isFirst: boolean, isLast: boolean) {
+    const R = 18, F = 5;
+    if (isMe) {
+        if (isFirst && isLast) return `${R}px ${R}px ${R}px ${R}px`;
+        if (isFirst) return `${R}px ${R}px ${F}px ${R}px`;
+        if (isLast) return `${R}px ${F}px ${R}px ${R}px`;
+        return `${R}px ${F}px ${F}px ${R}px`;
+    } else {
+        if (isFirst && isLast) return `${R}px ${R}px ${R}px ${R}px`;
+        if (isFirst) return `${R}px ${R}px ${R}px ${F}px`;
+        if (isLast) return `${F}px ${R}px ${R}px ${R}px`;
+        return `${F}px ${R}px ${R}px ${F}px`;
+    }
+}
+
 export function MessageBubble({
     message,
     currentUserId,
@@ -35,7 +51,7 @@ export function MessageBubble({
     readReceipts,
     isGroup,
     isSending,
-    isLastMessage,       // ← NEW: only show Seen/Sent on the very last message
+    isLastMessage,
     onPickerOpen,
     onPickerClose,
     onReply,
@@ -52,8 +68,8 @@ export function MessageBubble({
     isGroup?: boolean;
     isSending?: boolean;
     isLastMessage?: boolean;
-onPickerOpen?: () => void;
-onPickerClose?: () => void;
+    onPickerOpen?: () => void;
+    onPickerClose?: () => void;
     onReply: (message: MessageWithSender) => void;
     onJumpToMessage: (id: Id<"messages">) => void;
     messageRef?: (el: HTMLDivElement | null) => void;
@@ -63,7 +79,7 @@ onPickerClose?: () => void;
     const [showMenu, setShowMenu] = useState(false);
     const [hover, setHover] = useState(false);
     const [positionAbove, setPositionAbove] = useState(false);
-    const bubbleRef = useRef<HTMLDivElement>(null);
+    const bubbleRef = useRef<HTMLDivElement | null>(null);
 
     const deleteForEveryone = useMutation(api.messages.deleteForEveryone);
     const deleteForMe = useMutation(api.messages.deleteForMe);
@@ -75,7 +91,6 @@ onPickerClose?: () => void;
     const totalReactors = new Set(reactions.flatMap((r) => r.userIds)).size;
 
     const [showSeenDetail, setShowSeenDetail] = useState(false);
-    const seenDetailRef = useRef<HTMLDivElement>(null);
 
     // ── Read status (computed for all messages, shown selectively) ───────────
     const otherParticipantIds = Object.keys(readReceipts ?? {}).filter((id) => id !== currentUserId);
@@ -102,7 +117,7 @@ onPickerClose?: () => void;
         setPositionAbove(rect.top > window.innerHeight / 2);
     };
 
-    const openMenu = () => { measurePosition(); setShowMenu(true); setShowPicker(false); setShowDetail(false); };
+    const openMenu = () => { measurePosition(); setShowMenu(true); setShowPicker(false); setShowDetail(false); onPickerOpen?.(); };
     const openPicker = () => { measurePosition(); setShowPicker(true); setShowMenu(false); setShowDetail(false); onPickerOpen?.(); };
     const togglePicker = () => { if (showPicker) { setShowPicker(false); onPickerClose?.(); } else { openPicker(); } };
     const openDetail = () => {
@@ -112,6 +127,8 @@ onPickerClose?: () => void;
         onPickerOpen?.();
         setShowMenu(false);
     };
+    const closePicker = () => { setShowPicker(false); onPickerClose?.(); };
+    const closeDetail = () => { setShowDetail(false); onPickerClose?.(); };
 
     const enrichedReactions = reactions.map((r) => ({
         ...r,
@@ -124,38 +141,10 @@ onPickerClose?: () => void;
         setShowPicker(false);
     };
 
-    const handleCopy = () => { if (message.content) navigator.clipboard.writeText(message.content); };
-    const br = (() => {
-        const R = 18;
-        const F = 5;
-        const solo = isFirstInGroup && isLastInGroup;
-        const first = isFirstInGroup && !isLastInGroup;
-        const middle = !isFirstInGroup && !isLastInGroup;
-        const last = !isFirstInGroup && isLastInGroup;
-        // this is structure of message bubble depending upon who is sender or reciever
-        if (isMe) {
-            if (solo) return `${R}px ${R}px ${R}px ${R}px`;
-            if (first) return `${R}px ${R}px ${F}px ${R}px`;
-            if (middle) return `${R}px ${F}px ${F}px ${R}px`;
-            if (last) return `${R}px ${F}px ${R}px ${R}px`;
-        } else {
-            if (solo) return `${R}px ${R}px ${R}px ${R}px`;
-            if (first) return `${R}px ${R}px ${R}px ${F}px`;
-            if (middle) return `${F}px ${R}px ${R}px ${F}px`;
-            if (last) return `${F}px ${R}px ${R}px ${R}px`;
-        }
-        return `${R}px`;
-    })();
-
-    // ── Whether to show Seen/Sent label ──────────────────────────────────────
-    // Always show a spinner/error icon inline for any message.
-    // Only show "Seen" / "Sent" text below the last message.
-    const showStatusLabel = isMe && isLastMessage && !message.isDeleted;
-
     return (
         <div
             ref={(el) => {
-                (bubbleRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+                bubbleRef.current = el;
                 messageRef?.(el);
             }}
             className={`flex flex-col ${isMe ? "items-end" : "items-start"} ${showSender ? "mt-3" : "mt-0.5"}`}
@@ -166,16 +155,7 @@ onPickerClose?: () => void;
                 onMouseLeave={() => setHover(false)}
             >
                 {/* Other user avatar in groups */}
-                {!isMe && isFirstInGroup && (
-                    <div className="mr-2 mt-auto flex-shrink-0 z-10">
-                        {message.sender?.imageUrl
-                            ? <img src={message.sender.imageUrl} alt="" className="h-6 w-6 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                            : <div className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold" style={{ background: "rgba(168,85,247,0.15)", color: "#f0eeff", border: "1px solid rgba(168,85,247,0.25)" }}>
-                                {message.sender?.name?.[0]?.toUpperCase()}
-                            </div>
-                        }
-                    </div>
-                )}
+                {!isMe && isFirstInGroup && <div className="mr-2 mt-auto flex-shrink-0 z-10"><MemberAvatar sender={message.sender} /></div>}
                 {!isFirstInGroup && !isMe && !showSender && <div className="mr-2 w-6 flex-shrink-0" />}
 
                 <div className={`relative flex max-w-[65%] flex-col ${isMe ? "items-end" : "items-start"}`}>
@@ -199,63 +179,18 @@ onPickerClose?: () => void;
 
                     {/* Emoji picker */}
                     {showPicker && (
-                        <>
-                            <div
-                                className="fixed inset-0 z-0"
-                                onClick={() => { setShowPicker(false); onPickerClose?.(); }}
-                            />
-
-                            <div
-                                className={`absolute ${isMe ? "right-0" : "left-0"
-                                    } z-30 flex gap-1.5 rounded-full px-2 py-1.5 shadow-2xl backdrop-blur-md`}
-                                style={{
-                                    background: "rgba(26,26,26,0.95)",
-                                    border: "1px solid #2a2a2a",
-                                    ...(positionAbove
-                                        ? { bottom: "calc(100% + 8px)" }
-                                        : { top: "calc(100% + 8px)" }),
-                                }}
-                            >
-                                {REACTION_EMOJIS.map((emoji, index) => {
-                                    const isCurrent = myReaction === emoji;
-
-                                    return (
-                                        <button
-                                            key={emoji}
-                                            onClick={() => handleReact(emoji)}
-                                            className="
-              relative rounded-full p-2 text-xl
-              transition-all duration-200 ease-out
-              hover:scale-125 hover:-translate-y-1
-              active:scale-110
-            "
-                                            style={{
-                                                background: isCurrent ? "rgba(168,85,247,0.25)" : "transparent",
-                                                outline: isCurrent ? "2px solid #a855f7" : "none",
-                                                outlineOffset: 2,
-                                                animation: `emoji-wave 350ms cubic-bezier(.34,1.56,.64,1)`,
-                                                animationDelay: `${index * 70}ms`,
-                                                animationFillMode: "both",
-                                            }}
-                                        >
-                                            <span className="relative">{emoji}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </>
+                        <MessageEmojiPicker isMe={isMe} positionAbove={positionAbove} myReaction={myReaction} onSelect={handleReact} onClose={closePicker} />
                     )}
-
                     {/* Context menu */}
                     {showMenu && (
                         <ContextMenu
                             isMe={isMe}
                             onReply={() => onReply(message)}
-                            onCopy={handleCopy}
-                            onReact={openPicker}
+                            onCopy={() => message.content && navigator.clipboard.writeText(message.content)}
+                            onReact={(emoji) => handleReact(emoji)}
                             onDeleteForMe={() => deleteForMe({ messageId: message._id, userId: currentUserId })}
                             onDeleteForEveryone={isMe ? () => deleteForEveryone({ messageId: message._id, userId: currentUserId }) : undefined}
-                            onClose={() => setShowMenu(false)}
+                            onClose={() => { setShowMenu(false); onPickerClose?.(); }}
                             positionAbove={positionAbove}
                             alignRight={isMe}
                         />
@@ -274,7 +209,7 @@ onPickerClose?: () => void;
                                 backdropFilter: "blur(12px)",
                                 WebkitBackdropFilter: "blur(12px)",
                                 // border: isMe ? "1px solid rgba(168,85,247,0.4)" : "1px solid rgba(255,255,255,0.1)",
-                                borderRadius: br,
+                                borderRadius: getBubbleRadius(isMe, isFirstInGroup, isLastInGroup),
                                 padding: "8px 14px 10px",
                                 boxShadow: isMe ? "0 2px 20px rgba(100,40,210,0.3), inset 0 1px 0 rgba(255,255,255,0.08)" : "none",
                             }}>
@@ -376,10 +311,7 @@ onPickerClose?: () => void;
                                     {showDetail && (
                                         <ReactionDetail
                                             reactions={enrichedReactions}
-                                            onClose={() => {
-                                                setShowDetail(false);
-                                                onPickerClose?.();
-                                            }}
+                                            onClose={closeDetail}
                                             isMe={isMe}
                                             currentUserId={currentUserId}
                                             positionAbove={positionAbove}
@@ -394,90 +326,18 @@ onPickerClose?: () => void;
             </div>
 
             {/* ── Seen / Sent / Group Seen label — only on last message ─────────── */}
-            {showStatusLabel && (
+            {isMe && isLastMessage && !message.isDeleted && (
                 <div className={`flex items-center px-1 z-20 ${isMe ? "justify-end" : "justify-start"}`}>
-                    {isGroup && readStatus === "seen" ? (
-                        // Group seen — show names or plain "Seen" if everyone saw it
-                        <div className="relative" ref={seenDetailRef}>
-                            {allGroupSeen ? (
-                                // Everyone saw it — plain "Seen", no modal
-                                <span style={{
-                                    WebkitTextStroke: "0.25px #a855f7", fontSize: 13, fontStyle: "italic", color: "#a855f7", textShadow:
-                                        readStatus === "seen"
-                                            ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
-                                            : "0 0 4px rgba(120,110,180,0.35)",
-                                }}>Seen</span>
-                            ) : (
-                                // Some saw it — clickable with names
-                                <button
-                                    onClick={() => {
-                                        measurePosition();
-                                        setShowSeenDetail(v => !v);
-                                    }}
-                                    className="transition-opacity hover:opacity-70"
-                                    style={{ fontSize: 15, fontStyle: "italic", color: "#a855f7", textAlign: "right" }}
-                                >
-                                    {(() => {
-                                        const seenUsers = groupSeenBy
-                                            .map(id => allUsers?.find(u => u.clerkId === id)?.name ?? "Someone")
-                                            .filter(Boolean);
-                                        const shown = seenUsers.slice(0, 2);
-                                        const rest = seenUsers.length - shown.length;
-                                        return `Seen by ${shown.join(", ")}${rest > 0 ? ` & ${rest} other${rest > 1 ? "s" : ""}` : ""}`;
-                                    })()}
-                                </button>
-                            )}
-
-                            {/* Seen-by detail dropdown — smart position, capped height */}
-                            {showSeenDetail && !allGroupSeen && (
-                                <>
-                                    <div className="fixed inset-0 z-40" onClick={() => setShowSeenDetail(false)} />
-                                    <div
-                                        className="absolute z-50 overflow-hidden rounded-2xl shadow-2xl"
-                                        style={{
-                                            background: "#0d0d18",
-                                            backdropFilter: "blur(16px)",
-                                            WebkitBackdropFilter: "blur(16px)",
-                                            border: "1px solid rgba(110,80,200,0.25)",
-                                            width: 220,
-                                            ...(positionAbove ? { bottom: "calc(100% + 6px)" } : { top: "calc(100% + 6px)" }),
-                                            right: 0,
-                                        }}
-                                    >
-                                        <div className="px-4 py-2.5" style={{ borderBottom: "1px solid #1a1a1a" }}>
-                                            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#555" }}>
-                                                Seen by {groupSeenBy.length}
-                                            </p>
-                                        </div>
-                                        <div className="overflow-y-auto" style={{ maxHeight: 200, scrollbarWidth: "thin", scrollbarColor: "#333 transparent" }}>
-                                            {groupSeenBy.map((uid) => {
-                                                const u = allUsers?.find(u => u.clerkId === uid);
-                                                const name = u?.name ?? "Unknown";
-                                                return (
-                                                    <div key={uid} className="flex items-center gap-3 px-4 py-2.5" style={{ borderBottom: "1px solid rgba(110,80,200,0.1)" }}>
-                                                        {u?.imageUrl
-                                                            ? <img src={u.imageUrl} alt={name} className="h-7 w-7 flex-shrink-0 rounded-full object-cover" style={{ border: "1px solid #333" }} />
-                                                            : <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold" style={{ background: "rgba(168,85,247,0.15)", color: "#f0eeff", border: "1px solid rgba(168,85,247,0.25)" }}>{name[0]?.toUpperCase()}</div>
-                                                        }
-                                                        <span className="truncate text-sm" style={{ color: "#d4caff" }}>{name}</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    ) : (
-                        <span style={{
-                            textShadow:
-                                readStatus === "seen"
-                                    ? "0 0 6px rgba(168,85,247,0.6), 0 0 12px rgba(168,85,247,0.35)"
-                                    : "0 0 4px rgba(120,110,180,0.35)", WebkitTextStroke: "0.1px #a855f7", fontSize: 13, fontStyle: "italic", color: readStatus === "seen" ? "#a855f7" : "#4a4568"
-                        }}>
-                            {readStatus === "seen" ? "Seen" : "Sent"}
-                        </span>
-                    )}
+                    <ReadStatusLabel
+                        readStatus={readStatus}
+                        isGroup={isGroup}
+                        allGroupSeen={allGroupSeen}
+                        groupSeenBy={groupSeenBy}
+                        allUsers={allUsers}
+                        positionAbove={positionAbove}
+                        showSeenDetail={showSeenDetail}
+                        onToggleSeenDetail={() => { measurePosition(); setShowSeenDetail(v => !v); }}
+                    />
                 </div>
             )}
         </div>

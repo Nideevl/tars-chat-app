@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Send, Smile, X, Reply } from "lucide-react";
-import { EmojiPicker } from "./EmojiPicker";
+import { EmojiPicker } from "../message/EmojiPicker";
 import { Id } from "@/convex/_generated/dataModel";
 
 interface ReplyTarget {
@@ -124,7 +124,7 @@ export function MessageInput({
             <div className="flex items-end gap-3">
                 <div
                     className="flex flex-1 gap-3 rounded-full px-4 py-2"
-                    style={{ background: "var(--input-bg)", border: "1px solid #222" }}
+                    style={{ background: "var(--input-bg)",border: "1.75px solid rgba(255,255,255,0.2)"}}
                 >
                     {/* Emoji toggle */}
                     <button

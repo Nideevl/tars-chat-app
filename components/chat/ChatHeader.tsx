@@ -49,10 +49,15 @@ export function ChatHeader({
         >
             <button
                 onClick={onBack}
-                className="rounded-lg p-1.5 md:hidden transition-colors"
+                className="
+    rounded-full p-1.5 md:hidden
+    transition-colors duration-150
+    hover:bg-white/10
+    hover:text-white
+  "
                 style={{ color: "var(--text-tertiary)" }}
             >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-5 w-5" />
             </button>
 
             {isLoading ? (
@@ -137,7 +142,8 @@ export function ChatHeader({
                                     className="text-sm"
                                     style={{
                                         letterSpacing: "0.4px",
-                                        color: "var(--text-muted)"
+                                        color: "var(--text-muted)",
+                                        WebkitTextStroke: "0.4px var(--text-muted)"
                                     }}
                                 >
                                     {isGroup && typingUsers?.[0]
@@ -152,6 +158,7 @@ export function ChatHeader({
                                     letterSpacing: "0.4px",
                                     color: "var(--text-muted)",
                                     fontSize: "13px",
+                                    WebkitTextStroke: "0.4px var(--text-muted)"
                                 }}
                             >
                                 {isGroup

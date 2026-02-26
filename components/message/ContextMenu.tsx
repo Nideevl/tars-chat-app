@@ -9,7 +9,7 @@ interface ContextMenuProps {
     isMe: boolean;
     onReply: () => void;
     onCopy: () => void;
-    onReact: () => void;
+    onReact: (emoji: string) => void;
     onDeleteForMe: () => void;
     onDeleteForEveryone?: () => void;
     onClose: () => void;
@@ -60,7 +60,7 @@ export function ContextMenu({
                 {/* Quick emoji strip */}
                 <div className="flex items-center gap-1 px-3 py-2.5" style={{ borderBottom: "1px solid #1f1f1f" }}>
                     {REACTION_EMOJIS.map((emoji) => (
-                        <button key={emoji} onClick={() => { onReact(); onClose(); }}
+                        <button key={emoji} onClick={() => { onReact(emoji); onClose(); }}
                             className="rounded-full p-1.5 text-xl transition-all hover:scale-125" title={emoji}>
                             {emoji}
                         </button>
