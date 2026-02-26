@@ -173,8 +173,8 @@ export function ChatHeader({
                     {isGroup && (
                         <button
                             onClick={onOpenGroupInfo}
-                            className="rounded-lg p-1.5 transition-colors"
-                            style={{ color: "var(--text-tertiary)" }}
+                            className="cursor-pointer p-3 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10"
+                            style={{ color: "#fff" }}
                         >
                             <MoreVertical className="h-4 w-4" />
                         </button>

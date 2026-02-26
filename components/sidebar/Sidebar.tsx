@@ -117,11 +117,11 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                         />
 
                         <div className="flex items-center gap-1">
-                            {/* Avatar shown in header on mobile only (icon rail hidden on mobile) */}
+                            {/* Avatar — mobile only */}
                             <button
                                 onClick={() => setShowEditProfile(true)}
                                 title="Edit profile"
-                                className="cursor-pointer relative group h-8 w-8 flex md:hidden items-center justify-center rounded-full hover:bg-zinc-800 transition-colors mr-1"
+                                className="relative h-8 w-8 flex md:hidden items-center justify-center rounded-full transition-all duration-150 opacity-80 hover:opacity-100 hover:bg-white/10 mr-1"
                             >
                                 {convexUser?.imageUrl ? (
                                     <img src={convexUser.imageUrl} alt="Me" className="h-8 w-8 rounded-full object-cover" />
@@ -130,42 +130,31 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                                         {(convexUser?.name ?? currentUser.fullName ?? "?")[0]?.toUpperCase()}
                                     </div>
                                 )}
-                                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-white/10" />
                             </button>
 
                             <button onClick={() => setView("new-chat")} title="New message"
-                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
-                                style={{ color: "var(--text-tertiary)" }}
-                                onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
+                                className="p-2 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10"
+                                style={{ color: "#fff" }}>
                                 <MessageSquarePlus className="h-4 w-4" />
                             </button>
+
                             <button onClick={() => setShowCreateGroup(true)} title="New group"
-                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
-                                style={{ color: "var(--text-tertiary)" }}
-                                onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
+                                className="p-2 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10"
+                                style={{ color: "#fff" }}>
                                 <Users className="h-4 w-4" />
                             </button>
-                            <button
-                                title="Manage Account"
-                                onClick={() => openUserProfile()}
-                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
-                                style={{ color: "var(--text-tertiary)" }}
-                                onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}
-                            >
+
+                            <button onClick={() => openUserProfile()} title="Manage Account"
+                                className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10"
+                                style={{ color: "#fff" }}>
                                 <EllipsisVertical className="h-4.5 w-5" />
                             </button>
-                            {/* Sign out in header — mobile only (desktop uses icon rail) */}
+
+                            {/* Sign out — mobile only */}
                             <SignOutButton redirectUrl="/sign-in">
-                                <button
-                                    title="Sign out"
-                                    className="cursor-pointer flex md:hidden rounded-lg p-1.5 transition-colors"
-                                    style={{ color: "var(--text-tertiary)" }}
-                                    onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
-                                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}
-                                >
+                                <button title="Sign out"
+                                    className="flex md:hidden p-2 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10"
+                                    style={{ color: "#fff" }}>
                                     <Power strokeWidth={1.75} className="h-4 w-4" />
                                 </button>
                             </SignOutButton>
