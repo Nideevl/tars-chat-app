@@ -248,30 +248,15 @@ export function MessageBubble({
                                 )}
                                 {/* Hover actions */}
                                 {hover && !message.isDeleted && (
-                                    <div className={`absolute ${isMe ? "right-full mr-2" : "left-full ml-2"} top-1/2 -translate-y-1/2 z-30 flex gap-1.5 rounded-2xl px-3 py-2.5`}>
-                                        <button onClick={togglePicker}
-                                            className="rounded-lg p-1.5 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)" }}
-                                            onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
-                                            onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
-                                        >
-                                            <span ><Smile size={18} strokeWidth={1.5} /></span>
+                                    <div className={`absolute ${isMe ? "right-full mr-1" : "left-full ml-1"} top-1/2 -translate-y-1/2 z-30 flex items-center gap-0.5`}>
+                                        <button onClick={togglePicker} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                            <Smile size={18} strokeWidth={1.5} style={{ color: "#fff" }} />
                                         </button>
-                                        <button onClick={() => onReply(message)}
-                                            className="rounded-lg p-1.5 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)" }}
-                                            onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
-                                            onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
-                                        >
-                                            <Reply className="h-3.5 w-3.5" />
+                                        <button onClick={() => onReply(message)} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                            <Reply size={16} style={{ color: "#fff" }} />
                                         </button>
-                                        <button onClick={openMenu}
-                                            className="rounded-lg px-1.5 py-0.25 transition-colors"
-                                            style={{ background: "rgba(168,85,247,0.12)" }}
-                                            onMouseEnter={e => (e.currentTarget.style.color = "#c084fc")}
-                                            onMouseLeave={e => (e.currentTarget.style.color = "#7c6aa0")}
-                                        >
-                                            <span style={{ lineHeight: 1 }}><EllipsisVertical size={15} /></span>
+                                        <button onClick={openMenu} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                            <EllipsisVertical size={16} style={{ color: "#fff" }} />
                                         </button>
                                     </div>
                                 )}
