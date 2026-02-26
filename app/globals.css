@@ -41,7 +41,7 @@
   --reaction-bg:      #2a2a2a;
   --reaction-border:  #3a3a3a;
 
-  --overlay:          rgba(0,0,0,0.85);
+  --overlay:          rgba(0,0,0,0.4);
   --modal-bg:         #0d0d0d;
   --modal-border:     #222222;
   --modal-card-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(139,92,246,0.08);
@@ -80,6 +80,58 @@
 
   --typing-dot:      #888888;
   --scrollbar-thumb: #333333;
+   --ep-accent:              #7C3AED;
+  --ep-accent-mid:          #6D28D9;
+  --ep-accent-dark:         #4C1D95;
+  --ep-accent-text:         #a78bfa;
+  --ep-accent-faint:        rgba(139,92,246,0.05);
+  --ep-accent-border:       rgba(139,92,246,0.5);
+  --ep-accent-border-focus: rgb(78,0,123);
+  --ep-accent-glow:         rgba(124,58,237,0.4);
+  --ep-accent-glow-strong:  rgba(124,58,237,0.6);
+  --ep-accent-ring:         rgba(139,92,246,0.4);
+  --ep-accent-ring-glow:    rgba(139,92,246,0.2);
+  --ep-accent-hover-bg:     rgba(109,40,217,0.35);
+  --ep-accent-bg:           rgba(139,92,246,0.1);
+  --ep-accent-icon:         rgba(139,92,246,0.4);
+  --ep-accent-saved:        rgba(139,92,246,0.2);
+
+  --ep-modal-bg:            linear-gradient(160deg, rgb(13,13,20) 0%, rgb(0,0,0) 100%);
+  --ep-modal-border:        rgb(186 186 186 / 18%);
+  --ep-modal-shadow:        0 32px 80px rgba(0,0,0,0.9),
+                            0 0 0 1px rgba(139,92,246,0.06),
+                            0 0 60px rgba(109,40,217,0.08);
+  --ep-backdrop:            rgba(0,0,0,0.8);
+
+  --ep-divider-strong:      linear-gradient(90deg, transparent, rgba(139,92,246,0.3), transparent);
+  --ep-divider-subtle:      linear-gradient(90deg, transparent, rgba(139,92,246,0.15), transparent);
+
+  --ep-text-primary:        #ffffff;
+  --ep-text-secondary:      #6b6b8a;
+  --ep-text-label:          #4a4a6a;
+  --ep-text-counter:        #3a3a5a;
+  --ep-text-link:           rgb(186,186,186);
+
+  --ep-cancel-bg:           rgba(255,255,255,0.03);
+  --ep-cancel-bg-hover:     rgba(255,255,255,0.06);
+  --ep-cancel-color:        rgb(189,189,189);
+  --ep-cancel-color-hover:  #aaaaaa;
+  --ep-cancel-border:       rgb(186 186 186 / 18%);
+
+  --ep-badge-border:        #0a0a10;
+  --ep-badge-shadow:        rgba(124,58,237,0.5);
+
+  --ep-crop-ring-border:    rgba(139,92,246,0.5);
+  --ep-crop-ring-glow:      0 0 0 4px rgba(139,92,246,0.12),
+                            0 0 40px rgba(139,92,246,0.25),
+                            0 0 80px rgba(109,51,170,0.15);
+
+  --ep-error-bg:            rgba(255,59,48,0.08);
+  --ep-error-border:        rgba(255,59,48,0.2);
+  --ep-error-text:          #ff6b6b;
+
+  --ep-save-gradient:       linear-gradient(135deg, rgb(30,0,80) 0%, rgb(109,40,217) 50%, rgb(76,29,149) 100%);
+  --ep-save-inset:          inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -171,4 +223,180 @@
   0%   { opacity: 1; }
   60%  { opacity: 0.7; }
   100% { opacity: 0; }
+}
+
+/* ── Backdrop ─────────────────────────────────────────────────── */
+.ep-backdrop {
+  background: var(--ep-backdrop);
+  backdrop-filter: blur(16px);
+}
+
+/* ── Modal shell ──────────────────────────────────────────────── */
+.ep-modal {
+  background: var(--ep-modal-bg);
+  border: 1px solid var(--ep-modal-border);
+  box-shadow: var(--ep-modal-shadow);
+}
+
+/* ── Text helpers ─────────────────────────────────────────────── */
+.ep-text-primary  { color: var(--ep-text-primary); }
+.ep-text-secondary { color: var(--ep-text-secondary); }
+.ep-label  { color: var(--ep-text-label); }
+.ep-counter { color: var(--ep-text-counter); }
+
+/* ── Dividers ─────────────────────────────────────────────────── */
+.ep-divider-strong {
+  height: 1px;
+  background: var(--ep-divider-strong);
+  margin: 0 20px;
+}
+.ep-divider-subtle {
+  height: 1px;
+  background: var(--ep-divider-subtle);
+}
+
+/* ── Avatar ring (absolute, outside the circle) ───────────────── */
+.ep-avatar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px var(--ep-accent-ring), 0 0 30px var(--ep-accent-ring-glow);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+/* ── Avatar circle border ─────────────────────────────────────── */
+.ep-avatar-circle {
+  border: 2px solid var(--ep-crop-ring-border);
+}
+
+/* ── Avatar empty state ───────────────────────────────────────── */
+.ep-avatar-empty { background: var(--ep-accent-bg); }
+.ep-avatar-icon  { color: var(--ep-accent-icon); }
+
+/* ── Avatar hover overlay ─────────────────────────────────────── */
+.ep-avatar-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  background: var(--ep-accent-hover-bg);
+}
+.group:hover .ep-avatar-hover { opacity: 1; }
+
+/* ── Camera badge ─────────────────────────────────────────────── */
+.ep-camera-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--ep-accent) 0%, var(--ep-accent-mid) 60%, var(--ep-accent-dark) 100%);
+  border: 2px solid var(--ep-badge-border);
+  box-shadow: 0 2px 12px var(--ep-badge-shadow);
+}
+
+/* ── Upload link ──────────────────────────────────────────────── */
+.ep-upload-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s;
+  color: var(--ep-text-link);
+}
+.ep-upload-link:hover { color: var(--ep-accent-text); }
+
+/* ── Shared input base ────────────────────────────────────────── */
+.ep-input {
+  width: 100%;
+  outline: none;
+  background: var(--ep-accent-faint);
+  color: var(--ep-text-primary);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+/* name field uses 2px border */
+.ep-input-name {
+  border: 2px solid var(--ep-accent-border);
+}
+/* bio field uses 1px border */
+.ep-input-bio {
+  border: 1px solid var(--ep-accent-border);
+  scrollbar-width: none;
+  line-height: 1.6;
+}
+.ep-input:focus {
+  border-color: var(--ep-accent-border-focus);
+  box-shadow: 0 0 0 3px var(--ep-accent-faint);
+}
+
+/* ── Crop canvas wrapper ──────────────────────────────────────── */
+.ep-crop-canvas-wrapper {
+  overflow: hidden;
+  border-radius: 9999px;
+  user-select: none;
+  width: 260px;
+  height: 260px;
+  border: 2px solid var(--ep-crop-ring-border);
+  box-shadow: var(--ep-crop-ring-glow);
+}
+
+/* ── Range input ──────────────────────────────────────────────── */
+.ep-range { accent-color: var(--ep-accent); }
+
+/* ── Rotate button ────────────────────────────────────────────── */
+.ep-btn-rotate {
+  background: var(--ep-accent-faint);
+  color: var(--ep-accent-text);
+  border: 1px solid var(--ep-accent-border);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  transition: background 0.15s;
+}
+.ep-btn-rotate:hover { background: var(--ep-accent-bg); }
+
+/* ── Cancel button ────────────────────────────────────────────── */
+.ep-btn-cancel {
+  background: var(--ep-cancel-bg);
+  color: var(--ep-cancel-color);
+  border: 1px solid var(--ep-cancel-border);
+  transition: background 0.15s, color 0.15s;
+}
+.ep-btn-cancel:hover {
+  background: var(--ep-cancel-bg-hover);
+  color: var(--ep-cancel-color-hover);
+}
+
+/* ── Save / primary button ────────────────────────────────────── */
+.ep-btn-save {
+  background: var(--ep-save-gradient);
+  box-shadow: 0 4px 20px var(--ep-accent-glow), var(--ep-save-inset);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #ffffff;
+  transition: box-shadow 0.15s, background 0.15s;
+}
+.ep-btn-save:hover:not(:disabled) {
+  box-shadow: 0 6px 28px var(--ep-accent-glow-strong), var(--ep-save-inset);
+}
+.ep-btn-save:disabled { opacity: 0.5; }
+.ep-btn-save.saved {
+  background: var(--ep-accent-saved);
+  box-shadow: none;
+}
+
+/* ── Error box ────────────────────────────────────────────────── */
+.ep-error {
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  background: var(--ep-error-bg);
+  border: 1px solid var(--ep-error-border);
+  color: var(--ep-error-text);
 }
