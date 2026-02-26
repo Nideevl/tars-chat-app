@@ -48,7 +48,7 @@ export function ConversationItem({ conversation, currentUserId, isSelected, onSe
   return (
     <button
       onClick={onSelect}
-      className="flex w-full items-center gap-3.5 rounded-lg px-3.5 py-3.5 text-left transition-colors"
+      className="cursor-pointer flex w-full items-center gap-3.5 rounded-lg px-3.5 py-3.5 text-left transition-colors"
       style={{ background: isSelected ? "var(--bg-muted)" : "transparent" }}
       onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = "var(--bg-subtle)"; }}
       onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = "transparent"; }}

@@ -24,7 +24,7 @@ export function MessageEmojiPicker({ isMe, positionAbove, myReaction, onSelect, 
                         <button
                             key={emoji}
                             onClick={() => onSelect(emoji)}
-                            className="relative rounded-full p-2 text-xl transition-all duration-200 ease-out hover:scale-125 hover:-translate-y-1 active:scale-110"
+                            className="cursor-pointer relative rounded-full p-2 text-xl transition-all duration-200 ease-out hover:scale-125 hover:-translate-y-1 active:scale-110"
                             style={{
                                 background: active ? "rgba(168,85,247,0.25)" : "transparent",
                                 outline: active ? "2px solid #a855f7" : "none",

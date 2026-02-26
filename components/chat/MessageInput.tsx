@@ -75,7 +75,7 @@ export function MessageInput({
                             <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Emoji</span>
                             <button
                                 onClick={() => setShowEmojiPicker(false)}
-                                className="rounded-full p-1"
+                                className="cursor-pointer rounded-full p-1"
                                 style={{ color: "var(--text-muted)" }}
                                 onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")}
                                 onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}
@@ -110,7 +110,7 @@ export function MessageInput({
                     </div>
                     <button
                         onClick={onClearReply}
-                        className="rounded-full p-1 flex-shrink-0"
+                        className="cursor-pointer rounded-full p-1 flex-shrink-0"
                         style={{ color: "var(--text-muted)" }}
                         onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")}
                         onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}
@@ -129,7 +129,7 @@ export function MessageInput({
                     {/* Emoji toggle */}
                     <button
                         onClick={() => setShowEmojiPicker(v => !v)}
-                        className="mb-0.5 flex-shrink-0"
+                        className="cursor-pointer mb-0.5 flex-shrink-0"
                         style={{
                             color: showEmojiPicker ? "var(--text-primary)" : "var(--text-muted)",
                             transform: showEmojiPicker ? "rotate(90deg)" : "rotate(0deg)",
@@ -167,7 +167,7 @@ export function MessageInput({
                     <button
                         onClick={submit}
                         disabled={!messageText.trim() || isSending}
-                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full transition-all disabled:opacity-40"
+                        className="cursor-pointer flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full transition-all disabled:opacity-40"
                         style={{ background: "transparent" }}
                     >
                         {isSending

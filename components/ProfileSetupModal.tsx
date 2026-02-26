@@ -134,7 +134,7 @@ export function ProfileSetupModal({
           <div className="flex flex-col items-center gap-3">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="group relative flex-shrink-0"
+              className="group relative flex-shrink-0 cursor-pointer"
               title="Change profile picture"
             >
               {currentAvatar ? (
@@ -243,7 +243,7 @@ export function ProfileSetupModal({
           <button
             onClick={handleSkip}
             disabled={isSaving}
-            className="flex-1 rounded-xl py-3 text-sm font-medium transition-colors"
+            className="flex-1 rounded-xl py-3 text-sm font-medium transition-colors cursor-pointer"
             style={{ background: "var(--bg-subtle)", color: "var(--text-muted)", border: "1px solid #222" }}
             onMouseEnter={e => { (e.currentTarget.style.color = "var(--text-secondary)"); }}
             onMouseLeave={e => { (e.currentTarget.style.color = "var(--text-muted)"); }}
@@ -253,7 +253,7 @@ export function ProfileSetupModal({
           <button
             onClick={handleSave}
             disabled={isSaving || !username.trim()}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all disabled:opacity-50"
+            className="cursor-pointer flex flex-1 items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all disabled:opacity-50"
             style={{ background: "var(--text-primary)", color: "var(--bg-base)" }}
           >
             {isSaving ? (

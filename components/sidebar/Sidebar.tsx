@@ -71,7 +71,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                         <button
                             onClick={() => setShowEditProfile(true)}
                             title="Edit profile"
-                            className="relative group h-8 w-8 flex items-center justify-center rounded-full hover:bg-zinc-800 transition-colors"
+                            className="cursor-pointer relative group h-8 w-8 flex items-center justify-center rounded-full hover:bg-zinc-800 transition-colors"
                         >
                             {convexUser?.imageUrl ? (
                                 <img src={convexUser.imageUrl} alt="Me" className="h-8 w-8 rounded-full object-cover" />
@@ -84,7 +84,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                         </button>
                         <SignOutButton redirectUrl="/sign-in">
                             <button
-                                className="rounded-full transition-colors flex justify-center"
+                                className="cursor-pointer rounded-full transition-colors flex justify-center"
                                 style={{ color: "var(--text-muted)" }}
                                 onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")}
                                 onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}
@@ -121,7 +121,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                             <button
                                 onClick={() => setShowEditProfile(true)}
                                 title="Edit profile"
-                                className="relative group h-8 w-8 flex md:hidden items-center justify-center rounded-full hover:bg-zinc-800 transition-colors mr-1"
+                                className="cursor-pointer relative group h-8 w-8 flex md:hidden items-center justify-center rounded-full hover:bg-zinc-800 transition-colors mr-1"
                             >
                                 {convexUser?.imageUrl ? (
                                     <img src={convexUser.imageUrl} alt="Me" className="h-8 w-8 rounded-full object-cover" />
@@ -134,14 +134,14 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                             </button>
 
                             <button onClick={() => setView("new-chat")} title="New message"
-                                className="rounded-lg p-1.5 transition-colors"
+                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
                                 style={{ color: "var(--text-tertiary)" }}
                                 onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
                                 <MessageSquarePlus className="h-4 w-4" />
                             </button>
                             <button onClick={() => setShowCreateGroup(true)} title="New group"
-                                className="rounded-lg p-1.5 transition-colors"
+                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
                                 style={{ color: "var(--text-tertiary)" }}
                                 onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
@@ -150,7 +150,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                             <button
                                 title="Manage Account"
                                 onClick={() => openUserProfile()}
-                                className="rounded-lg p-1.5 transition-colors"
+                                className="cursor-pointer rounded-lg p-1.5 transition-colors"
                                 style={{ color: "var(--text-tertiary)" }}
                                 onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
                                 onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}
@@ -161,7 +161,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                             <SignOutButton redirectUrl="/sign-in">
                                 <button
                                     title="Sign out"
-                                    className="flex md:hidden rounded-lg p-1.5 transition-colors"
+                                    className="cursor-pointer flex md:hidden rounded-lg p-1.5 transition-colors"
                                     style={{ color: "var(--text-tertiary)" }}
                                     onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
                                     onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}
@@ -191,7 +191,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                                 style={{ color: "var(--text-primary)" }}
                             />
                             {searchQuery && (
-                                <button onClick={() => setSearchQuery("")}>
+                                <button className="cursor-pointer" onClick={() => setSearchQuery("")}>
                                     <X className="h-3.5 w-3.5" style={{ color: "var(--text-muted)" }} />
                                 </button>
                             )}
@@ -210,7 +210,7 @@ export function Sidebar({ currentUser, selectedConversationId, onSelectConversat
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className="rounded-full px-3 py-1 text-xs font-semibold transition-all"
+                                    className="cursor-pointer rounded-full px-3 py-1 text-xs font-semibold transition-all"
                                     style={{
                                         background: active ? "var(--text-primary)" : "var(--bg-subtle)",
                                         color: active ? "var(--bg-base)" : "var(--text-muted)",

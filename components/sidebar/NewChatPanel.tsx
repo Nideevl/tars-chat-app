@@ -20,7 +20,7 @@ export function NewChatPanel({ currentUserId, onSelectUser, onCreateGroup, onClo
         <div className="flex h-full w-full flex-col" style={{ background: "var(--bg-base)", borderRight: "1px solid #222" }}>
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3" style={{ borderBottom: "1px solid #222" }}>
-                <button onClick={onClose} className="rounded-lg p-1.5 transition-colors"
+                <button onClick={onClose} className="cursor-pointer rounded-lg p-1.5 transition-colors"
                     style={{ color: "var(--text-tertiary)" }}
                     onMouseEnter={e => { e.currentTarget.style.background = "var(--bg-muted)"; e.currentTarget.style.color = "var(--text-primary)"; }}
                     onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-tertiary)"; }}>
@@ -45,7 +45,7 @@ export function NewChatPanel({ currentUserId, onSelectUser, onCreateGroup, onClo
 
             {/* New Group button */}
             <button onClick={onCreateGroup}
-                className="flex items-center gap-3 px-5 py-3 transition-colors"
+                className="cursor-pointer flex items-center gap-3 px-5 py-3 transition-colors"
                 style={{ borderBottom: "1px solid #1a1a1a" }}
                 onMouseEnter={e => (e.currentTarget.style.background = "var(--bg-subtle)")}
                 onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
@@ -72,7 +72,7 @@ export function NewChatPanel({ currentUserId, onSelectUser, onCreateGroup, onClo
                 ) : (
                     users.map(user => (
                         <button key={user._id} onClick={() => onSelectUser(user.clerkId)}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors"
+                            className="cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors"
                             onMouseEnter={e => (e.currentTarget.style.background = "var(--bg-subtle)")}
                             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                         >

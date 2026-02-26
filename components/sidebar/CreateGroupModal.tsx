@@ -51,7 +51,7 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                             <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>New Group</p>
                             <p className="text-xs" style={{ color: "var(--text-muted)" }}>{selectedIds.length} selected</p>
                         </div>
-                        <button onClick={onClose} style={{ color: "var(--text-tertiary)" }}>
+                        <button className="cursor-pointer" onClick={onClose} style={{ color: "var(--text-tertiary)" }}>
                             <X className="h-4 w-4" />
                         </button>
                     </div>
@@ -68,7 +68,7 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                         <div className="flex flex-wrap gap-2 px-4 pb-3">
                             {selectedUsers.map(u => (
                                 <button key={u.clerkId} onClick={() => toggle(u.clerkId)}
-                                    className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
+                                    className="cursor-pointer flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
                                     style={{ background: "var(--text-primary)", color: "var(--bg-base)" }}>
                                     {u.name.split(" ")[0]} <X className="h-3 w-3" />
                                 </button>
@@ -81,7 +81,7 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                             const sel = selectedIds.includes(user.clerkId);
                             return (
                                 <button key={user._id} onClick={() => toggle(user.clerkId)}
-                                    className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors"
+                                    className="cursor-pointer flex w-full items-center gap-3 px-4 py-3 text-left transition-colors"
                                     style={{ borderBottom: "1px solid #111" }}
                                     onMouseEnter={e => (e.currentTarget.style.background = "var(--bg-subtle)")}
                                     onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
@@ -111,7 +111,7 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                     {selectedIds.length > 0 && (
                         <div className="flex justify-end p-4" style={{ borderTop: "1px solid #1a1a1a" }}>
                             <button onClick={() => setStep("name")}
-                                className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors"
+                                className="cursor-pointer flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors"
                                 style={{ background: "var(--text-primary)", color: "var(--bg-base)" }}>
                                 Next <ArrowRight className="h-4 w-4" />
                             </button>
@@ -119,7 +119,7 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                     )}
                 </>) : (<>
                     <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: "1px solid #1a1a1a" }}>
-                        <button onClick={() => setStep("members")} className="rounded-lg p-1.5" style={{ background: "var(--bg-muted)", color: "var(--text-tertiary)", border: "1px solid #333" }}>
+                        <button onClick={() => setStep("members")} className="cursor-pointer rounded-lg p-1.5" style={{ background: "var(--bg-muted)", color: "var(--text-tertiary)", border: "1px solid #333" }}>
                             <ArrowLeft className="h-4 w-4" />
                         </button>
                         <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Group Info</p>
@@ -152,14 +152,14 @@ export function CreateGroupModal({ currentUserId, onClose, onCreated }: CreateGr
                     </div>
 
                     <div className="flex gap-3 px-5 pb-5">
-                        <button onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-medium transition-colors"
+                        <button onClick={onClose} className="cursor-pointer flex-1 rounded-xl py-2.5 text-sm font-medium transition-colors"
                             style={{ background: "var(--bg-muted)", color: "var(--text-tertiary)", border: "1px solid #2a2a2a" }}
                             onMouseEnter={e => (e.currentTarget.style.background = "var(--bg-border)")}
                             onMouseLeave={e => (e.currentTarget.style.background = "var(--bg-muted)")}>
                             Cancel
                         </button>
                         <button onClick={handleCreate} disabled={!groupName.trim() || isCreating}
-                            className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-40"
+                            className="cursor-pointer flex-1 rounded-xl py-2.5 text-sm font-semibold transition-colors disabled:opacity-40"
                             style={{ background: "var(--text-primary)", color: "var(--bg-base)" }}>
                             {isCreating ? "Creating..." : "Create Group"}
                         </button>

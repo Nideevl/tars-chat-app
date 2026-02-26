@@ -249,13 +249,13 @@ export function MessageBubble({
                                 {/* Hover actions */}
                                 {hover && !message.isDeleted && (
                                     <div className={`absolute ${isMe ? "right-full mr-1" : "left-full ml-1"} top-1/2 -translate-y-1/2 z-30 flex items-center gap-0.5`}>
-                                        <button onClick={togglePicker} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                        <button onClick={togglePicker} className="cursor-pointer p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
                                             <Smile size={18} strokeWidth={1.5} style={{ color: "#fff" }} />
                                         </button>
-                                        <button onClick={() => onReply(message)} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                        <button onClick={() => onReply(message)} className="cursor-pointer p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
                                             <Reply size={16} style={{ color: "#fff" }} />
                                         </button>
-                                        <button onClick={openMenu} className="p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
+                                        <button onClick={openMenu} className="cursor-pointer p-1.5 rounded-full transition-all duration-150 opacity-60 hover:opacity-100 hover:bg-white/10">
                                             <EllipsisVertical size={16} style={{ color: "#fff" }} />
                                         </button>
                                     </div>

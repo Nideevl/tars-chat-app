@@ -40,7 +40,7 @@ export function ReadStatusLabel({ readStatus, isGroup, allGroupSeen, groupSeenBy
         <div className="relative">
             {allGroupSeen
                 ? <span style={seenStyle}>Seen</span>
-                : <button onClick={onToggleSeenDetail} className="transition-opacity hover:opacity-70" style={{ ...seenStyle, textAlign: "right" }}>{label}</button>
+                : <button onClick={onToggleSeenDetail} className="cursor-pointer transition-opacity hover:opacity-70" style={{ ...seenStyle, textAlign: "right" }}>{label}</button>
             }
 
             {showSeenDetail && !allGroupSeen && (

@@ -33,7 +33,7 @@ export function ContextMenu({
     const menuItem = (icon: React.ReactNode, label: string, onClick: () => void, danger = false) => (
         <button
             onClick={onClick}
-            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors"
+            className="cursor-pointer flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors"
             style={{ color: danger ? "#f87171" : "#c4bae8" }}
             onMouseEnter={e => (e.currentTarget.style.background = "rgba(168,85,247,0.1)")}
             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
@@ -61,7 +61,7 @@ export function ContextMenu({
                 <div className="flex items-center gap-1 px-3 py-2.5" style={{ borderBottom: "1px solid #1f1f1f" }}>
                     {REACTION_EMOJIS.map((emoji) => (
                         <button key={emoji} onClick={() => { onReact(emoji); onClose(); }}
-                            className="rounded-full p-1.5 text-xl transition-all hover:scale-125" title={emoji}>
+                            className="cursor-pointer rounded-full p-1.5 text-xl transition-all hover:scale-125" title={emoji}>
                             {emoji}
                         </button>
                     ))}

@@ -62,7 +62,7 @@ export function ReactionDetail({
                 >
                     <button
                         onClick={() => setTab("all")}
-                        className="flex-shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+                        className="cursor-pointer flex-shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
                         style={{
                             background: tab === "all" ? "#a855f7" : "rgba(255,255,255,0.05)",
                             color: tab === "all" ? "#fff" : "rgba(200,180,255,0.5)",
@@ -79,7 +79,7 @@ export function ReactionDetail({
                                     if (reacted) { await onToggleReaction(r.emoji); onClose(); }
                                     else setTab(r.emoji);
                                 }}
-                                className="flex flex-shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
+                                className="cursor-pointer flex flex-shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
                                 style={{
                                     background: tab === r.emoji ? "#a855f7" : "rgba(255,255,255,0.05)",
                                     color: tab === r.emoji ? "#fff" : "rgba(200,180,255,0.5)",

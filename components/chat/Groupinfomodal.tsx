@@ -67,7 +67,7 @@ export function GroupInfoModal({ conversationId, currentUserId, currentName, cur
             <h2 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Group Info</h2>
             <p className="text-xs" style={{ color: "var(--text-muted)" }}>{memberCount} members</p>
           </div>
-          <button onClick={onClose} className="rounded-full p-1.5" style={{ color: "var(--text-muted)", background: "var(--bg-muted)" }} onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")} onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}>
+          <button onClick={onClose} className="cursor-pointer rounded-full p-1.5" style={{ color: "var(--text-muted)", background: "var(--bg-muted)" }} onMouseEnter={e => (e.currentTarget.style.color = "var(--text-primary)")} onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}>
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -75,7 +75,7 @@ export function GroupInfoModal({ conversationId, currentUserId, currentName, cur
         <div className="px-5 pb-5 space-y-4">
           <div className="flex justify-center pt-1">
             <button onClick={() => fileInputRef.current?.click()} className="group relative" title="Change group photo">
-              <div className="h-20 w-20 overflow-hidden rounded-full" style={{ border: "2px solid #333" }}>
+              <div className="cursor-pointer h-20 w-20 overflow-hidden rounded-full" style={{ border: "2px solid #333" }}>
                 {displayAvatar ? <img src={displayAvatar} alt="Group" className="h-full w-full object-cover" /> : <GroupDefaultAvatar size={80} />}
               </div>
               <div className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.55)" }}>
@@ -103,9 +103,9 @@ export function GroupInfoModal({ conversationId, currentUserId, currentName, cur
           {error && <p className="rounded-lg px-3 py-2 text-xs" style={{ background: "var(--error-bg)", color: "var(--error-text)", border: "1px solid #3a0000" }}>{error}</p>}
 
           <div className="flex gap-2 pt-1">
-            <button onClick={onClose} className="flex-1 rounded-xl py-2.5 text-sm font-medium" style={{ background: "var(--bg-subtle)", color: "var(--text-muted)", border: "1px solid #222" }}>Cancel</button>
+            <button onClick={onClose} className="cursor-pointer flex-1 rounded-xl py-2.5 text-sm font-medium" style={{ background: "var(--bg-subtle)", color: "var(--text-muted)", border: "1px solid #222" }}>Cancel</button>
             <button onClick={handleSave} disabled={isSaving || !name.trim()} className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold disabled:opacity-50" style={{ background: "var(--text-primary)", color: "var(--bg-base)" }}>
-              {isSaving ? <><Loader2 className="h-4 w-4 animate-spin" />Saving</> : "Save"}
+              {isSaving ? <><Loader2 className="cursor-pointer h-4 w-4 animate-spin" />Saving</> : "Save"}
             </button>
           </div>
         </div>

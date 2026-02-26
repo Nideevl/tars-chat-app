@@ -129,17 +129,17 @@ function CropStep({ imageSrc, onCrop, onCancel }: {
           className="ep-range flex-1"
         />
         <ZoomIn className="ep-text-secondary h-3.5 w-3.5 flex-shrink-0" />
-        <button onClick={() => setRotation(r => (r + 90) % 360)} className="ep-btn-rotate" title="Rotate 90°">
+        <button onClick={() => setRotation(r => (r + 90) % 360)} className="cursor-pointer ep-btn-rotate" title="Rotate 90°">
           <RotateCw className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {/* Crop step buttons */}
       <div className="flex w-full gap-3">
-        <button onClick={onCancel} className="ep-btn-cancel flex-1 rounded-full py-2.5 text-sm font-medium">
+        <button onClick={onCancel} className="cursor-pointer ep-btn-cancel flex-1 rounded-full py-2.5 text-sm font-medium">
           Cancel
         </button>
-        <button onClick={applyCrop} className="ep-btn-save flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-sm font-semibold">
+        <button onClick={applyCrop} className="cursor-pointer ep-btn-save flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-sm font-semibold">
           <Check className="h-4 w-4" /> Use this photo
         </button>
       </div>
@@ -236,7 +236,7 @@ export function EditProfileModal({ clerkId, currentName, currentBio, currentImag
 
           {/* Avatar */}
           <div className="flex flex-col items-center gap-2 py-7">
-            <button onClick={() => fileInputRef.current?.click()} className="group relative">
+            <button onClick={() => fileInputRef.current?.click()} className="cursor-pointer group relative">
               <div className="ep-avatar-ring" />
               <div className="ep-avatar-circle h-24 w-24 overflow-hidden rounded-full">
                 {displayAvatar ? (
@@ -301,13 +301,13 @@ export function EditProfileModal({ clerkId, currentName, currentBio, currentImag
 
             {/* Buttons */}
             <div className="flex gap-3 pt-1">
-              <button onClick={onClose} className="ep-btn-cancel flex-1 rounded-full py-3 text-sm font-medium">
+              <button onClick={onClose} className="cursor-pointer ep-btn-cancel flex-1 rounded-full py-3 text-sm font-medium">
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={isSaving || saved || !username.trim()}
-                className={`ep-btn-save flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold${saved ? " saved" : ""}`}
+                className={`cursor-pointer ep-btn-save flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold${saved ? " saved" : ""}`}
               >
                 {saved
                   ? <><Check className="h-4 w-4" /> Saved!</>

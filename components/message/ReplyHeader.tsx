@@ -32,7 +32,7 @@ export function ReplyHeader({
             </span>
             <button
                 onClick={() => onJump(replyTo._id)}
-                className="flex flex-col rounded-xl px-3 py-2 text-left transition-opacity hover:opacity-75 max-w-full"
+                className="cursor-pointer flex flex-col rounded-xl px-3 py-2 text-left transition-opacity hover:opacity-75 max-w-full"
                 style={{
                     background: isMe ? "rgba(255,255,255,0.15)" : "rgba(168,85,247,0.3)",
                     borderLeft: `3px solid ${isMe ? "rgba(168,85,247,0.6)" : "rgba(255,255,255,0.2)"}`,
